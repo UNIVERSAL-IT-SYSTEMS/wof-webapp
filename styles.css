@@ -1,0 +1,124 @@
+/* Reset and define common styles */
+
+* {
+    /*
+    display: inline-block;
+    */
+    margin: 0 auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    text-align: center;
+}
+
+body {
+    display: inline-block;
+    font-family: Arial, Helvetica;
+    background-color: #e0e0e0;
+    font-size: 100%;
+}
+
+button {
+    border: 1px solid #999;
+    color: #555;
+    background-color: #F4F4FA;
+    padding: 0 10px;
+    font-size: 1.5em;
+}
+
+button:hover {
+    background-color: white;
+}
+
+input[type=text], input:not([type]) {
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    border-radius: 3px;
+}
+
+/* Main page structure and masthead style */
+#wrapper {
+    margin: auto;
+    padding: 20px;
+}
+#main {
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.75);
+    border-radius: 10px;
+}
+header {
+    background-color: #71BCFA;
+    display: inline-block;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+header h1 {
+    color: #545353;
+    font-size: 4em;
+    font-weight: normal;
+}
+header h2 {
+    color: white;
+    font-size: 2em;
+    font-weight: normal;
+}
+header h3{
+   font-size: 1.5em; 
+   font-weight: normal;
+}
+
+/* "Fetch the Fridge" form */
+#fetch-fridge {
+    margin: 17px 0 5px 0;
+    font-size: 1.1em;
+}
+
+#office-location{
+    font-size: 1.5em;
+}
+
+#fetch-fridge button {
+    padding: 0 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    margin-top: 20px;
+}
+
+footer a {
+    color: #666;
+    display: block;
+}
+
+#feedback-text{
+    font-family: Arial, Helvetica;
+    margin-top: 8px;
+    margin-bottom: 3px;
+}
+
+ #feedbackForm, #cancel{
+    display: none;
+}
+
+#thank-you{
+    font-family: Arial, Helvetica;
+    font-size: 1.5em; 
+    margin: 8px auto;
+}
+
+
+#errorlog {
+    color: red;
+    font-weight: bold;
+    padding: 8px;
+    display: inline-block;
+    text-align: left;
+}
