@@ -53,6 +53,7 @@ header {
     padding: 20px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    width: 100%;
 }
 header h1 {
     color: #545353;
