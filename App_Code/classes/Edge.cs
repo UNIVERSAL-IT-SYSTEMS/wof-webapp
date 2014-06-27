@@ -3,22 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Node_ns;
 
-namespace Edge_ns
+namespace ShortestPath
 {
-    class Edge
+    public class Edge
     {
+        private Node n1, n2;
 
-        private Node start_node;
-        private Node end_node;
-        private double weight;
-
-        public Edge(Node start_node, Node end_node)
+        public Node N1
         {
-            this.start_node = start_node;
-            this.end_node = end_node;
-            //calculate weight => where do we store scale?
+            get { return n1; }
+            //set { n1 = value; }
+        }
+        public Node N2
+        {
+            get { return n2; }
+            //set { n2 = value; }
+        }
+
+        private double weight;
+        public double Weight
+        {
+            get { return weight; }
+            //set { weight = value; }
+        }
+        public Edge(Node n1, Node n2, double weight)
+        {
+            this.n1 = n1;
+            this.n1.addEdge(this);
+            this.n2 = n2;
+            this.n2.addEdge(this);
+            this.weight = weight;
+        }
+
+        public Node otherNode(Node n)
+        {
+            if (n == this.N1)
+            {
+                return this.N2;
+            }
+            if (n == this.N2)
+            {
+                return this.N1;
+            }
+            throw new Exception("Invalid Node passed into Edge.otherNode.");
         }
     }
 }
