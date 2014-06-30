@@ -23,12 +23,24 @@ namespace ShortestPath
         }
 
         private LinkedList<Node> listOfNodes;
+        public LinkedList<Node> ListOfNodes
+        {
+            get { return listOfNodes; }
+            set { listOfNodes = value; }
+        }
         public Path(Node n)
         {
             this.Cost = 0;
             this.LastNode = n;
             listOfNodes = new LinkedList<Node>();
             listOfNodes.AddLast(n);
+        }
+
+        public Path(Path p)
+        {
+            this.Cost = p.Cost;
+            this.LastNode = p.LastNode;
+            listOfNodes = p.ListOfNodes;
         }
 
         public void addEdgeToPath(Edge e)
@@ -43,6 +55,18 @@ namespace ShortestPath
         {
             return this.Cost.CompareTo(p.Cost);
         }
+
+        public override string ToString()
+        {
+            String s = "Path: <";
+            foreach (Node n in listOfNodes)
+            {
+                s += " (" + n.ToString() + ") ";
+            }
+            s += ">";
+            return s;
+        }
+
 
     }
 }

@@ -48,5 +48,11 @@ namespace ShortestPath
             }
             throw new Exception("Invalid Node passed into Edge.otherNode.");
         }
+
+        public override string ToString()
+        {
+            return "Edge: [" + this.N1.ToString() + " - " + this.N2.ToString() + "]";
+        }
+
     }
 }

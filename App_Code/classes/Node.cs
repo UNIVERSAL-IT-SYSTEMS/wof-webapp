@@ -20,9 +20,7 @@ namespace ShortestPath
             get { return edges; }
         }
 
-
-        public Node()
-            : base()
+        public Node(): base()
         {
             officeLocation = -1;
             edges = new List<Edge>();
@@ -30,12 +28,18 @@ namespace ShortestPath
         public Node(int officeLocation, double x, double y): base(x, y)
         {
             this.OfficeLocation = officeLocation;
+            edges = new List<Edge>();
 
         }
 
         public void addEdge(Edge e)
         {
             edges.Add(e);
+        }
+
+        public override string ToString()
+        {
+            return this.OfficeLocation.ToString();
         }
     }
 }

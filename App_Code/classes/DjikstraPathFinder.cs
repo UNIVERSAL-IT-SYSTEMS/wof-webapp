@@ -47,6 +47,7 @@ namespace ShortestPath
                     addEdgeToPath(e, p);
                 }
             }
+            finishedNodes.Add(lastNode);
             return explorePath(nextLowestPath());
         }
 
@@ -81,8 +82,9 @@ namespace ShortestPath
                 }
             }
             //there isn't a path that leads to newLastNode in paths yet, so add newPath
-            p.addEdgeToPath(e);
-            paths.Add(p);
+            Path newPath = new Path(p);
+            newPath.addEdgeToPath(e);
+            paths.Add(newPath);
             return;
         }
 
