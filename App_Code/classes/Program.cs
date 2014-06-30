@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace ShortestPath
 {
+    /**
+     * Runs all the tests for Point, Node, Edge, Path, and MinCostPathFinder.
+     * */
     class Program
     {
         static void Main(string[] args)
         {
+            String sectionBreak = "\n*^*^*^*^*^*^*^*^*^*^*^*\n";
+            
             //Point tests
-            Console.WriteLine("Starting Point tests.");
+            Console.WriteLine(sectionBreak+ "Starting Point tests.\n");
             Point p = new Point();
             if (p.X != 0) Console.WriteLine("Point instanciated without x and y coordinates should have x set to zero.");
             if (p.Y != 0) Console.WriteLine("Point instanciated without x and y coordinates should have y set to zero.");
@@ -22,10 +27,10 @@ namespace ShortestPath
             p = new Point(3.0, 4.0);
             if (p.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + p.X);
             if (p.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + p.Y);
-            Console.WriteLine("Done with Point tests.");
+            Console.WriteLine("\nDone with Point tests." + sectionBreak);
 
             //Node tests
-            Console.WriteLine("Starting Node tests.");
+            Console.WriteLine(sectionBreak+ "Starting Node tests.\n");
             Node n = new Node();
             if (n.X != 0) Console.WriteLine("Node instanciated without parameters should have x set to zero.");
             if (n.Y != 0) Console.WriteLine("Node instanciated without parameters should have y set to zero.");
@@ -42,10 +47,10 @@ namespace ShortestPath
             if (n.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + n.Y);
             if (n.OfficeLocation != 7424) Console.WriteLine("OfficeLocation not being set properly. Should be 7424. Returning " + n.OfficeLocation);
             Console.WriteLine("Should be 7424: " + n);
-            Console.WriteLine("Done with Node tests.");
+            Console.WriteLine("\nDone with Node tests."+sectionBreak);
 
             //Edge Tests
-            Console.WriteLine("Starting Edge tests.");
+            Console.WriteLine(sectionBreak + "Starting Edge tests.\n");
             Node a = new Node();
             Node b = new Node();
             Edge ab = new Edge(a, b, 20);
@@ -60,10 +65,10 @@ namespace ShortestPath
             if (!a.Edges.Contains(ab)) Console.WriteLine("Edge AB no longer in A.Edges after AC added.");
             //test that AB == BA
             //test ToString()
-            Console.WriteLine("Done with Edge tests.");
+            Console.WriteLine("\nDone with Edge tests."+sectionBreak);
 
-            //Testing Path
-            Console.WriteLine("Starting Path tests.");
+            //Path Tests
+            Console.WriteLine(sectionBreak + "Starting Path tests.\n");
             Path path = new Path(a);
             if (path.Cost != 0) Console.WriteLine("Initial path cost should be 0.");
             if (path.LastNode != a) Console.WriteLine("Path with single node A should have LastNode = A.");
@@ -78,11 +83,7 @@ namespace ShortestPath
             Edge equalEdge = new Edge(c, d, ab.Weight);
             equalPath.addEdgeToPath(equalEdge);
             if (path.CompareTo(equalPath) != 0) Console.WriteLine("Paths with the same cost should be equal.");
-            //check that same results if adding path ba.
-            //check that one of the nodes of edge to be added is the current lastNode of the path
-            //test path from path
-            //Console.WriteLine("Testing Path ToString().");
-
+            //Testing Path ToString()
             Node one = new Node(1, 0, 0);
             Node two = new Node(2, 0, 0);
             Node three = new Node(3, 0, 0);
@@ -99,19 +100,29 @@ namespace ShortestPath
             //Console.WriteLine("LongPath: " + longPath);
             longPath.addEdgeToPath(twofour);
             //Console.WriteLine("LongPath: "+longPath);
-            if (a.ToString().CompareTo("Path: < (1) (3) (2) (4) >") == 0) Console.WriteLine("ToString() not working.");
-            Console.WriteLine("Done with Path tests.");
+            Console.WriteLine("Should be 'Path: < (1) (3) (2) (4) >': " + longPath.ToString());
+            Console.WriteLine("\nDone with Path tests."+sectionBreak);
 
-            //Testing DjikstraPathFinder
-            Console.WriteLine("Starting DjikstraPathFinder tests.");
-            DjikstraPathFinder pathFinder = new DjikstraPathFinder();
-            Path shortestPath = pathFinder.findPath(one, four);
-            Console.WriteLine("Should be Path: < (1) (2) (4) >  ...  " + shortestPath);
-            //pathFinder.findPath(n, n);
-            Console.WriteLine("Done with DjikstraPathFinder tests.");
+            //Testing MinCostPathFinder
+            Console.WriteLine(sectionBreak + "Starting MinCostPathFinder tests.\n");
+            MinCostPathFinder pathFinder = new MinCostPathFinder();
+            one = new Node(1, 0, 0);
+            Console.WriteLine("Should be 'Path: < (1) >': " + pathFinder.findPath(one, one));
+            two = new Node(2, 0, 0);
+            onetwo = new Edge(one, two, 5.0);
+            Console.WriteLine("Should be 'Path: < (1) (2) >': " + pathFinder.findPath(one, two));
+            three = new Node(3, 0, 0);
+            twothree = new Edge(two, three, 5.0);
+            Console.WriteLine("Should be 'Path: < (1) (2) >': " + pathFinder.findPath(one, two));
+            Console.WriteLine("Should be 'Path: < (1) (2) (3) >': " + pathFinder.findPath(one, three));
+            twofour = new Edge(two, four, 1.0);
+            Console.WriteLine("Should be 'Path: < (1) (2) (3) >': " + pathFinder.findPath(one, three));
+            Edge threefour = new Edge(three, four, 1.0);
+            Console.WriteLine("Should be 'Path: < (1) (2) (4) (3) >': " + pathFinder.findPath(one, three));
+            Console.WriteLine("Should be 'Path: < (3) (4) (2) (1) >': " + pathFinder.findPath(three, one));
+            Console.WriteLine("\nDone with MinCostPathFinder tests." + sectionBreak);
 
-
-            //So it doesn't close the window until I hit enter.
+            //So it doesn't close the window until you hit enter.
             Console.ReadLine();
         }
     }

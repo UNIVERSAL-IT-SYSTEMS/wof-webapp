@@ -40,7 +40,7 @@ namespace ShortestPath
         {
             this.Cost = p.Cost;
             this.LastNode = p.LastNode;
-            listOfNodes = p.ListOfNodes;
+            listOfNodes = new LinkedList<Node>(p.ListOfNodes);
         }
 
         public void addEdgeToPath(Edge e)

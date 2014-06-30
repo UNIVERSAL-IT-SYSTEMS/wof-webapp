@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShortestPath
 {
-    class DjikstraPathFinder
+    class MinCostPathFinder
     {
         private List<Path> paths;
         private List<Node> finishedNodes;
@@ -15,11 +15,9 @@ namespace ShortestPath
         private Node endNode;
 
         /**
-         * Initializes a DjikstraPathFinder instance. Right now this code actually
-         * is just a MinCostPathFinder. Will be updating so it only has to be run
-         * once when map is uploaded.
+         * Initializes a MinCostPathFinder instance.
          */
-        public DjikstraPathFinder()
+        public MinCostPathFinder()
         {
             refreshPathFinder();
         }
@@ -125,6 +123,5 @@ namespace ShortestPath
             paths.Add(newPath);
             return;
         }
-
     }
 }
