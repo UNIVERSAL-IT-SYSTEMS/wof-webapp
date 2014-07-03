@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Node_ns;
+using Edge_ns;
 
 namespace ShortestPath
 {

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Node_ns;
 
-namespace ShortestPath
+namespace Edge_ns
 {
     public class Edge
     {

@@ -24,5 +24,17 @@ namespace Calculator_ns
         {
             return Math.Sqrt(Math.Pow(a.getX() - b.getX(), 2) + Math.Pow(a.getY() - b.getY(), 2));
         }
+
+        public static bool hasDifferenceLessThan(float a, float b, double difference)
+        {
+            return (Math.Abs(a - b) < difference);
+        }
+
+        public static bool isBetween(float coord, float coord_a, float coord_b)
+        {
+            return ((coord > coord_a || CoordinateCalculator.hasDifferenceLessThan(coord, coord_a, 0.0001))
+                    && (coord < coord_b || CoordinateCalculator.hasDifferenceLessThan(coord, coord_b, 0.0001)));
+        }
+
     }
 }
