@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Point_ns;
 
-namespace Calculator_ns
+namespace PathFinding
 {
     public static class CoordinateCalculator
     {
@@ -22,7 +21,7 @@ namespace Calculator_ns
 
         public static double euclideanDistance(Point a, Point b)
         {
-            return Math.Sqrt(Math.Pow(a.getX() - b.getX(), 2) + Math.Pow(a.getY() - b.getY(), 2));
+            return Math.Sqrt(Math.Pow(a.X - b.X, 2) + Math.Pow(a.Y - b.Y, 2));
         }
 
         public static bool hasDifferenceLessThan(float a, float b, double difference)

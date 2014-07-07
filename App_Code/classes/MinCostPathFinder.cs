@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShortestPath
+namespace PathFinding
 {
     class MinCostPathFinder
     {
@@ -62,7 +62,7 @@ namespace ShortestPath
         private Path explorePath(Path p)
         {
             Node lastNode = p.LastNode;
-            if (lastNode == endNode) return p;
+            if (lastNode.OfficeLocation == endNode.OfficeLocation) return p;
             foreach (Edge e in lastNode.Edges)
             {
                 if (!finishedNodes.Contains(e.otherNode(lastNode))) //if a shorter path to that node has not already been found...

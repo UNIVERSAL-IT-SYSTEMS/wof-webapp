@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Point_ns;
-using Edge_ns;
 
-
-namespace Node_ns
+namespace PathFinding
 {
-    public class Node
+    public class Node: Object
     {
         private int officeLocation;
 
@@ -67,14 +64,15 @@ namespace Node_ns
 
         public static bool operator == (Node a, Node b)
         {
-            return (a.CrossingPoint == b.CrossingPoint);
-
+            return a.Equals(b);
         }
 
-        public bool Equals(Node other)
+        public override bool Equals(Object obj)
         {
-            return (this == other);
-
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            Node n = (Node)obj;
+            return (this.CrossingPoint.Equals(n.CrossingPoint)) && (this.OfficeLocation.Equals(n.OfficeLocation));
         }
 
         public static bool operator !=(Node a, Node b)

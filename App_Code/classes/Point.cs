@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Calculator_ns;
 using System.Drawing.Drawing2D;
 
-namespace Point_ns
+namespace PathFinding
 {
-    public class Point 
+    public class Point: Object
     {
-        
-        private float x;
+        private float x, y;
 
-        private float y;
+        public float X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public float Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
 
         public Point(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
-
+        /**
         public float getX()
         {
             return x;
@@ -40,7 +47,7 @@ namespace Point_ns
         {
             this.y = y;
         }
-
+        */
         //switch to SVG library with SVG point and matricies?
         public void translate(float translateX, float translateY) 
         {
@@ -70,8 +77,8 @@ namespace Point_ns
         }
         public static bool operator== (Point a, Point b){
 
-            return (CoordinateCalculator.hasDifferenceLessThan(a.getX(), b.getX(), 0.0001) 
-                && CoordinateCalculator.hasDifferenceLessThan(a.getY(), b.getY(), 0.0001));
+            return (CoordinateCalculator.hasDifferenceLessThan(a.X, b.X, 0.0001) 
+                && CoordinateCalculator.hasDifferenceLessThan(a.Y, b.Y, 0.0001));
                 
         }
 
@@ -80,6 +87,17 @@ namespace Point_ns
             return !(a == b);
 
         }
+
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            Point p = (Point)obj;
+            return (CoordinateCalculator.hasDifferenceLessThan(this.X, p.X, 0.0001)
+                && CoordinateCalculator.hasDifferenceLessThan(this.Y, p.Y, 0.0001));
+        }
+
 
     }
 }
