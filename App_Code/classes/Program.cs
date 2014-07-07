@@ -30,26 +30,25 @@ namespace PathFinding
             //test float decimal
             Console.WriteLine("\nDone with Point tests." + sectionBreak);
             //Node tests
-            /**
             Console.WriteLine(sectionBreak+ "Starting Node tests.\n");
             Node n = new Node();
-            if (n.X != 0) Console.WriteLine("Node instanciated without parameters should have x set to zero.");
-            if (n.Y != 0) Console.WriteLine("Node instanciated without parameters should have y set to zero.");
+            if (n.CrossingPoint.X != 0) Console.WriteLine("Node instanciated without parameters should have x set to zero.");
+            if (n.CrossingPoint.Y != 0) Console.WriteLine("Node instanciated without parameters should have y set to zero.");
             if (n.OfficeLocation.ToString() != n.ToString()) Console.WriteLine("ToString() should print out the office number.");
             if (n.OfficeLocation != -1) Console.WriteLine("Node instanciated without parameters should have OfficeLocation set to -1.");
-            n.X = 1;
-            if (n.X != 1) Console.WriteLine("X-Coordinate not being set properly. Should be 1. Returning " + n.X);
-            n.Y = 2;
-            if (n.Y != 2) Console.WriteLine("Y-Coordinate not being set properly. Should be 2. Returning " + n.Y);
+            n.CrossingPoint.X = 1;
+            if (n.CrossingPoint.X != 1) Console.WriteLine("X-Coordinate not being set properly. Should be 1. Returning " + n.CrossingPoint.X);
+            n.CrossingPoint.Y = 2;
+            if (n.CrossingPoint.Y != 2) Console.WriteLine("Y-Coordinate not being set properly. Should be 2. Returning " + n.CrossingPoint.Y);
             n.OfficeLocation = 5;
             if (n.OfficeLocation != 5) Console.WriteLine("Y-Coordinate not being set properly. Should be 5. Returning " + n.OfficeLocation);
-            n = new Node(7424, 3.0, 4.0);
-            if (n.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + n.X);
-            if (n.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + n.Y);
+            n = new Node(7424, (float)3.0, (float)4.0);
+            if (n.CrossingPoint.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + n.CrossingPoint.X);
+            if (n.CrossingPoint.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + n.CrossingPoint.Y);
             if (n.OfficeLocation != 7424) Console.WriteLine("OfficeLocation not being set properly. Should be 7424. Returning " + n.OfficeLocation);
-            Console.WriteLine("Should be 7424: " + n);
+            Console.WriteLine("Testing toString() override. Should be 7424: " + n);
             Console.WriteLine("\nDone with Node tests."+sectionBreak);
-            */
+
             //Edge Tests
             Console.WriteLine(sectionBreak + "Starting Edge tests.\n");
             Node a = new Node();
@@ -101,7 +100,7 @@ namespace PathFinding
             //Console.WriteLine("LongPath: " + longPath);
             longPath.addEdgeToPath(twofour);
             //Console.WriteLine("LongPath: "+longPath);
-            Console.WriteLine("Should be 'Path: < (1) (3) (2) (4) >': " + longPath.ToString());
+            Console.WriteLine("Testing toString() override. Should be 'Path: < (1) (3) (2) (4) >': " + longPath.ToString());
             Console.WriteLine("\nDone with Path tests."+sectionBreak);
 
             //Testing MinCostPathFinder
