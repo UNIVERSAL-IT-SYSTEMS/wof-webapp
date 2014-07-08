@@ -8,7 +8,15 @@ namespace PathFinding
 {
     class MinCostPathFinder
     {
+        //The list of paths we could explore.
         private List<Path> paths;
+        
+        /*
+         * The list of nodes we have already explored. This means we have already
+         * found the shortest path to them so any path that leads to one of the
+         * finished nodes is longer than it needs to be (and therefore couldn't be
+         * the shortest path to whatever node we are going toward).
+         */
         private List<Node> finishedNodes;
 
         private Node startNode;
@@ -54,9 +62,9 @@ namespace PathFinding
          * recursively explores the shortest path in paths until it finds a path that
          * ends with endNode.
          * 
-         * @param p is the path we are exploring. Actually, last node of path p is what we are exploring.
-         * Path p is the shortest path in paths (the list of paths we know of) so we want to explore outward
-         * from there to garuantee that the path to endNode that we return at the end is really the shortest path.
+         * @param p the path we are exploring. Actually, last node of path p is what we are exploring.
+         *          Path p is the shortest path in paths (the list of paths we know of) so we want to explore outward
+         *          from there to garuantee that the path to endNode that we return at the end is really the shortest path.
          * @return returns the shortest path to endNode, starting at p.
          * */
         private Path explorePath(Path p)
@@ -94,7 +102,7 @@ namespace PathFinding
          * 
          * @param e is the Edge we are adding to the new path
          * @param p is the Path that the new path is copying. We don't just add e to p since that would
-         * affect the p in explorePath function, which might not be finished.
+         *        affect the p in explorePath function, which might not be finished.
          */
         private void addEdgeToPath(Edge e, Path p)
         {
