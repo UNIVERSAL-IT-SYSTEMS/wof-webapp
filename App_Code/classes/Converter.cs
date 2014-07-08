@@ -7,13 +7,8 @@ using System.Web;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml;
-using Point_ns;
-using Line_ns;
-using Calculator_ns;
-using Node_ns;
-using Edge_ns;
-using Graph_ns;
-namespace Converter_ns
+
+namespace PathFinding
 {
     /*
      * For now, this class supports only svg files created by Microsoft Visio, in that specific format.
@@ -23,26 +18,38 @@ namespace Converter_ns
     {
 
         private Graph graph;
-        private List<Line> lines;
-        //private static File destinationFolder = new File("copiedFiles");
+        public Graph Graph
+        {
+            get { return graph; }
+        }
 
-        //STORE THE MAP ON SERVER - > graph serialization
-        //TESTS! LOTS OF TESTS!
+        private List<Line> lines;
+        private double scale;
+
+        public double Scale
+        {
+            get { return scale; }
+            set { scale = value;  }
+        }
 
         public Converter()
         {
             graph = new Graph();
             lines = new List<Line>();
         }
-        public static void downloadMap(string filePath)
+        public static Graph downloadMap(string filePath, double scale)
         {
+            
             XmlReaderSettings settings = new XmlReaderSettings();
             settings.DtdProcessing = DtdProcessing.Ignore;
             XmlReader reader = XmlReader.Create(filePath, settings);
             XmlDocument doc = new XmlDocument();
             doc.Load(reader);
             Converter converter = new Converter();
+            converter.Scale = scale;
             converter.transferData(doc);
+            converter.generateEdges();
+            return converter.graph;
         }
 
         public void transferData(XmlDocument doc)
@@ -165,8 +172,8 @@ namespace Converter_ns
 
             if (words.Count() >= 3 && words[0] == "translate")
             {
-                result.setX((float)Convert.ToDouble(words[1]));
-                result.setY((float)Convert.ToDouble(words[2]));
+                result.X = (float)Convert.ToDouble(words[1]);
+                result.Y = (float)Convert.ToDouble(words[2]);
             }
 
             return result;
@@ -235,6 +242,74 @@ namespace Converter_ns
 
             return (float)Convert.ToDouble(coordinate_text);
 
+        }
+
+        public void generateEdges()
+        {
+            for (int i = 0; i < lines.Count; i++)
+            {
+
+                SortedNodeContainer container = new SortedNodeContainer();
+                for (int j = 0; j < graph.Nodes.Count; j++)
+                {
+                    if (lines[i].contains(graph.Nodes[j].CrossingPoint))
+                    {
+                        container.Add(graph.Nodes[j]);
+                    }
+                }
+                if (container.Count > 1)
+                {
+                    for (int j = 0; j < container.Count - 1; j++)
+                    {
+                        graph.addEdge(container[j], container[j + 1], scale);
+                    }
+                }
+            }
+        }
+
+        private class SortedNodeContainer : List<Node>
+        {
+
+            public SortedNodeContainer() { }
+
+            public new void Add(Node newNode)
+            {
+                if (Count <= 1 )
+                {
+                    Add(newNode);
+                }
+                else
+                {
+                    int first_ind = 0;
+                    int last_ind = Count - 1;
+                    if (!(new Line(this[first_ind].CrossingPoint, this[last_ind].CrossingPoint).contains(newNode.CrossingPoint)))
+                    {
+                        if (new Line(newNode.CrossingPoint, this[last_ind].CrossingPoint).contains(this[first_ind].CrossingPoint))
+                            Insert(0, newNode);
+                        else
+                            Add(newNode);
+                    }
+                    else
+                    {
+                        while (last_ind - first_ind > 1)
+                        {
+                            int mid_ind = (last_ind - first_ind) / 2;
+                            if (new Line(this[first_ind].CrossingPoint, this[mid_ind].CrossingPoint).contains(newNode.CrossingPoint))
+                            {
+                                last_ind = mid_ind;
+                            }
+                            else
+                            {
+                                first_ind = mid_ind;
+                            }
+
+                        }
+                        Insert(last_ind, newNode);
+                    }
+                    
+                }
+               
+            }
         }
 
     }

@@ -4,19 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Node_ns;
-using Edge_ns;
 
-namespace Graph_ns
+
+namespace PathFinding
 {
-    class Graph
+    public class Graph
     {
-        private List<Edge> edges;
+        private Edgelist edges;
+
+        public Edgelist Edges
+        {
+            get { return edges; }
+        }
+        
         private Nodelist nodes;
+
+        public Nodelist Nodes
+        {
+            get { return nodes; }
+        }
+        
 
         public Graph() 
         {
-            edges = new List<Edge>();
+            edges = new Edgelist();
             nodes = new Nodelist();
         }
 
@@ -32,7 +43,23 @@ namespace Graph_ns
             }
         }
 
-        private class Nodelist : List<Node>
+        public void addEdge(Node n1, Node n2, double scale)
+        {
+            double weight = CoordinateCalculator.euclideanDistance(n1.CrossingPoint, n2.CrossingPoint)/scale;
+            Edge new_edge = new Edge(n1, n1, weight);
+            addEdge(new_edge);
+        }
+        public void addEdge(Edge new_edge)
+        {
+            if (!edges.Contains(new_edge))
+            {
+                edges.Add(new_edge);
+                new_edge.N1.Edges.Add(new_edge);
+                new_edge.N2.Edges.Add(new_edge);
+            }
+        }
+
+        public class Nodelist : List<Node>
         {
             public Nodelist()
             { }
@@ -42,6 +69,25 @@ namespace Graph_ns
                 for (int i = 0 ; i < Count; i++)
                 {
                     if (node == this[i])
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public class Edgelist : List<Edge>
+        {
+            public Edgelist()
+            { }
+
+            public new bool Contains(Edge edge)
+            {
+                for (int i = 0 ; i < Count; i++)
+                {
+                    if (edge == this[i])
                     {
                         return true;
                     }

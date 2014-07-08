@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Point_ns;
-using Calculator_ns;
 
-namespace Line_ns
+
+namespace PathFinding
 {
     public class Line
     {
@@ -75,26 +74,26 @@ namespace Line_ns
         //returns null if no cross, pt if crosses
         public Point crosses(Line line)
         {
-            if (CoordinateCalculator.hasDifferenceLessThan(end_pt.getX(), start_pt.getX(), 0.1) 
-                && !CoordinateCalculator.hasDifferenceLessThan(line.end_pt.getX(), line.start_pt.getX(), 0.1))
+            if (CoordinateCalculator.hasDifferenceLessThan(end_pt.X, start_pt.X, 0.1) 
+                && !CoordinateCalculator.hasDifferenceLessThan(line.end_pt.X, line.start_pt.X, 0.1))
             {
-                float crosing_x = end_pt.getX();
+                float crosing_x = end_pt.X;
                 float crossing_y = line.getSlope() * crosing_x + line.getConstant();
                 Point crossing_pt = new Point(crosing_x, crossing_y);
                 if (this.contains(crossing_pt) && line.contains(crossing_pt))
                     return crossing_pt;
             }
-            else if (!CoordinateCalculator.hasDifferenceLessThan(end_pt.getX(), start_pt.getX(), 0.1) 
-                && CoordinateCalculator.hasDifferenceLessThan(line.end_pt.getX(), line.start_pt.getX(), 0.1))
+            else if (!CoordinateCalculator.hasDifferenceLessThan(end_pt.X, start_pt.X, 0.1) 
+                && CoordinateCalculator.hasDifferenceLessThan(line.end_pt.X, line.start_pt.X, 0.1))
             {
-                float crosing_x = line.end_pt.getX();
+                float crosing_x = line.end_pt.X;
                 float crossing_y = getSlope() * crosing_x + getConstant();
                 Point crossing_pt = new Point(crosing_x, crossing_y);
                 if (this.contains(crossing_pt) && line.contains(crossing_pt))
                     return crossing_pt;
             }
-            else if ((CoordinateCalculator.hasDifferenceLessThan(end_pt.getX(), start_pt.getX(), 0.1)
-                && CoordinateCalculator.hasDifferenceLessThan(line.end_pt.getX(), line.start_pt.getX(), 0.1)) 
+            else if ((CoordinateCalculator.hasDifferenceLessThan(end_pt.X, start_pt.X, 0.1)
+                && CoordinateCalculator.hasDifferenceLessThan(line.end_pt.X, line.start_pt.X, 0.1)) 
                 || (this.getSlope() == line.getSlope()))
             {
                 if (start_pt == line.getStartPoint() || start_pt == line.getEndPoint())
@@ -117,23 +116,23 @@ namespace Line_ns
 
         public float getSlope()
         {
-            if (end_pt.getX() == start_pt.getX())
+            if (end_pt.X == start_pt.X)
                 throw new Exception();
 
-            return (end_pt.getY() - start_pt.getY()) / (end_pt.getX() - start_pt.getX());
+            return (end_pt.Y - start_pt.Y) / (end_pt.X - start_pt.X);
         }
 
         public float getConstant()
         {
-            return (end_pt.getY() - (end_pt.getX() * getSlope()));
+            return (end_pt.Y - (end_pt.X * getSlope()));
         }
 
         public bool contains(Point point)
         {
-            return ((CoordinateCalculator.isBetween(point.getX(), this.getStartPoint().getX(), this.getEndPoint().getX())
-                || CoordinateCalculator.isBetween(point.getX(), this.getEndPoint().getX(), this.getStartPoint().getX()))
-                && (CoordinateCalculator.isBetween(point.getY(), this.getStartPoint().getY(), this.getEndPoint().getY())
-                || CoordinateCalculator.isBetween(point.getY(), this.getEndPoint().getY(), this.getStartPoint().getY())));
+            return ((CoordinateCalculator.isBetween(point.X, this.getStartPoint().X, this.getEndPoint().X)
+                || CoordinateCalculator.isBetween(point.X, this.getEndPoint().X, this.getStartPoint().X))
+                && (CoordinateCalculator.isBetween(point.Y, this.getStartPoint().Y, this.getEndPoint().Y)
+                || CoordinateCalculator.isBetween(point.Y, this.getEndPoint().Y, this.getStartPoint().Y)));
         }
     }
 }

@@ -27,28 +27,7 @@ namespace PathFinding
             this.x = x;
             this.y = y;
         }
-        /**
-        public float getX()
-        {
-            return x;
-        }
 
-        public float getY()
-        {
-            return y;
-        }
-
-        public void setX(float x)
-        {
-            this.x = x;
-        }
-
-        public void setY(float y)
-        {
-            this.y = y;
-        }
-        */
-        //switch to SVG library with SVG point and matricies?
         public void translate(float translateX, float translateY) 
         {
             x += translateX;

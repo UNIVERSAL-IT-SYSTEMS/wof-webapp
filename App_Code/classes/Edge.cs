@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace PathFinding
 {
     public class Edge
@@ -54,5 +55,14 @@ namespace PathFinding
             return "Edge: [" + this.N1.ToString() + " - " + this.N2.ToString() + "]";
         }
 
+        public static bool operator == (Edge a, Edge b)
+        {
+            return (a.N1 == b.N1 && a.N2 == b.N2) || (a.N1 == b.N2 && a.N2 == b.N1);
+        }
+
+        public static bool operator != (Edge a, Edge b)
+        {
+            return !(a == b);
+        }
     }
 }
