@@ -60,6 +60,7 @@ namespace PathFinding
          */
         public void rotate(double angle)
         {
+            double radianAngle = angle * Math.PI / 180;
             double temp_x = Math.Cos(angle) * x - Math.Sin(angle) * y;
             double temp_y = Math.Sin(angle) * x + Math.Cos(angle) * y;
             x = (float)temp_x;
