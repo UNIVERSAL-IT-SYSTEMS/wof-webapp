@@ -11,23 +11,38 @@ namespace PathFinding
     {
         private float x, y;
 
+        //X-Coordinate property
         public float X
         {
             get { return x; }
             set { x = value; }
         }
+
+        //Y-Coordinate property
         public float Y
         {
             get { return y; }
             set { y = value; }
         }
 
+        /**
+         * Initializes a point instance with X-Coordinate equal to x, and Y-Coordinate equal to y.
+         * 
+         * @param x is the float that becomes the X-Coordinate of the new Point instance.
+         * @param y is the float that becomes the Y-Coordinate of the new Point instance.
+         */
         public Point(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
 
+        /**
+         * Shifts the point by translateX and translateY.
+         * 
+         * @param translateX is the amount the point should be shifted in the X direction.
+         * @param translateY is the amount the point should be shifted in the Y direction.
+         */
         public void translate(float translateX, float translateY) 
         {
             x += translateX;
@@ -35,6 +50,14 @@ namespace PathFinding
 
         }
 
+        /**
+         * Shifts the point by rotating it about the origin by angle degrees.
+         * (Imagine a line segment from the point to the origin, and rotating
+         * that line segment angle degrees. This method just updates the new 
+         * position of our point after being rotated.)
+         * 
+         * @param angle the amount by which the point is rotated about the origin (specified in degrees).
+         */
         public void rotate(double angle)
         {
             double temp_x = Math.Cos(angle) * x - Math.Sin(angle) * y;
@@ -43,6 +66,13 @@ namespace PathFinding
             y = (float)temp_y;
         }
 
+        /**
+         * Translates and then rotates the point.
+         * 
+         * @param translateX the amount by which the point is shifted in the X-direction.
+         * @param translateY the amount by which the piont is shifted in the Y-direction.
+         * @param angle the amount by which the piont is rotated about the origin (specified in degrees).
+         */
         public void transform(float translateX, float translateY, float angle)
         {
             Matrix transformation = new Matrix();
@@ -54,20 +84,13 @@ namespace PathFinding
             y = points[0].Y;
 
         }
-        public static bool operator== (Point a, Point b){
-
-            return (CoordinateCalculator.hasDifferenceLessThan(a.X, b.X, 0.0001) 
-                && CoordinateCalculator.hasDifferenceLessThan(a.Y, b.Y, 0.0001));
-                
-        }
-
-        public static bool operator!= (Point a, Point b)
-        {
-            return !(a == b);
-
-        }
-
-
+        /**
+         * Overrides the Equals function. For two points to be equal, both the
+         * X and Y must be within a certain epsilon of each other.
+         * 
+         * @param obj the Object being compared to this instance.
+         * @return whether obj has the same coordinates as this instance.
+         */
         public override bool Equals(Object obj)
         {
             if (obj == null || GetType() != obj.GetType())
@@ -77,6 +100,24 @@ namespace PathFinding
                 && CoordinateCalculator.hasDifferenceLessThan(this.Y, p.Y, 0.0001));
         }
 
+
+        /**
+         * Overrides == to return Equals.
+         */
+        public static bool operator == (Point a, Point b){
+
+            return a.Equals(b);
+                
+        }
+
+        /**
+         * Overrides != to return the opposite of Equals.
+         */
+        public static bool operator!= (Point a, Point b)
+        {
+            return !a.Equals(b);
+
+        }
 
     }
 }
