@@ -55,27 +55,26 @@ namespace pointTest
         [TestMethod]
         public void TransformTest()
         {
-            float startX = 0;
-            float startY = 0;
+            float startX = 1;
+            float startY = 2;
+            float degreeRotation = 90;
             float translateX = 1;
             float translateY = 2;
-            float degreeRotation = 90;
 
-            float expectedX = -2;
-            float expectedY = 1;
+            float expectedX = -1;
+            float expectedY = 3;
 
+            //Basically checking that expectedX and expectedY are right.
             Point newP = new Point(startX, startY);
-            newP.translate(translateX, translateY);
             newP.rotate(degreeRotation);
-            Assert.AreEqual(expectedX, newP.X, 0.001, "Tranform function not behaving like translate and then rotate with X-Coordinate.");
-            Assert.AreEqual(expectedY, newP.Y, 0.001, "Tranform function not behaving like translate and then rotate with Y-Coordinate.");
+            newP.translate(translateX, translateY);
+            Assert.AreEqual(expectedX, newP.X, 0.001, "Tranform function not behaving like rotate and then translate with X-Coordinate.");
+            Assert.AreEqual(expectedY, newP.Y, 0.001, "Tranform function not behaving like rotate and then translate with Y-Coordinate.");
 
             Point p = new Point(startX, startY);
             p.transform(translateX, translateY, degreeRotation);
             Assert.AreEqual(expectedX, p.X, 0.001, "X-Coordinate not being transformed correctly.");
             Assert.AreEqual(expectedY, p.Y, 0.001, "Y-Coordinate not being transformed correctly.");
-            
-
         }
 
         [TestMethod]
@@ -85,9 +84,9 @@ namespace pointTest
             Point b = new Point((float)1.11, (float)1.11);
             Point c = new Point(2, (float)1.11);
 
-            Assert.AreEqual(true, a == a, "The == operator is incorrectly indicating that the a point is not equal to itself.");
-            Assert.AreEqual(true, a == b, "The == operator is incorrectly indicating that points with equal coordinates are not equal.");
-            Assert.AreEqual(false, a == c, "The == operator is incorrectly indicating that points with different coordinates are equal.");
+            Assert.AreEqual(a, a, "The Equals function is incorrectly indicating that the a point is not equal to itself.");
+            Assert.AreEqual(a, b, "The Equals function is incorrectly indicating that two points with the same coordiantes are not equal.");
+            Assert.AreNotEqual(a, c, "The Equals function is incorrectly indicating that two points with different coordinates are not equal.");
         }
     }
 }
