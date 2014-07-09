@@ -9,12 +9,21 @@ namespace PathFinding
         [TestMethod]
         public void instantiationTest()
         {
+            //No Arguments
             Node n = new Node();
             Assert.AreEqual(0, n.CrossingPoint.X, "Node instantiated without parameters should have x set to zero.");
             Assert.AreEqual(0, n.CrossingPoint.Y, "Node instantiated without parameters should have y set to zero.");
             Assert.AreEqual(-1, n.OfficeLocation, "Node instantiated without parameters should have OfficeLocation set to -1.");
 
-            //Test other instantiations
+            //officeNumber, x-coordinate, y-coordinate
+            n = new Node(1, 0, 0);
+            //TODO: Add more tests
+
+            //officeNumber, point
+            Point p = new Point(3, 4);
+            n = new Node(1, p);
+            //TODO: Add more tests
+
             Assert.Fail();
         }
         [TestMethod]
@@ -48,5 +57,4 @@ namespace PathFinding
             //Test adding edges
             Assert.Fail();
         }
-    }
 }
