@@ -57,4 +57,5 @@ namespace PathFinding
             //Test adding edges
             Assert.Fail();
         }
+    }
 }
