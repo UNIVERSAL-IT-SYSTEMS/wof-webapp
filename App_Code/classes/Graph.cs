@@ -74,6 +74,8 @@ namespace PathFinding
 
                 return false;
             }
+
+
         }
 
         public class Edgelist : List<Edge>
@@ -94,6 +96,14 @@ namespace PathFinding
                 return false;
             }
         }
+
+        public Node findNodeByOfficeNumber(int number)
+        {
+            return nodes.Find(x => (x.OfficeLocation == number));
+
+
+        }
+
 
 
     }

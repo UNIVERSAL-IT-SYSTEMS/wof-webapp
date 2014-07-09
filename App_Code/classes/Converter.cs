@@ -318,6 +318,11 @@ namespace PathFinding
             }
         }
 
+        public static void drawPath(string destination_file, string original_map, Path shortest_path)
+        {
+
+        }
+
     }
 
 
