@@ -86,38 +86,34 @@ namespace PathFinding
 
         }
         /**
-         * Overrides the Equals function. For two points to be equal, both the
-         * X and Y must be within a certain epsilon of each other.
+         * Overrides the Equals function.
+         * Returns true if the x and y coordinates of two points are equal.
          * 
          * @param obj the Object being compared to this instance.
          * @return whether obj has the same coordinates as this instance.
          */
+
         public override bool Equals(Object obj)
         {
             if (obj == null || GetType() != obj.GetType())
                 return false;
             Point p = (Point)obj;
-            return (CoordinateCalculator.hasDifferenceLessThan(this.X, p.X, 0.0001)
-                && CoordinateCalculator.hasDifferenceLessThan(this.Y, p.Y, 0.0001));
+            return (x == p.x && y == p.y);
         }
 
 
         /**
-         * Overrides == to return Equals.
+         * Returns true if the x and y coordinates of two points are closer than epsilon
+         * 
+         * @param point the point to compare to
+         * @param epsilon the acceptable error
          */
-        public static bool operator == (Point a, Point b){
-
-            return a.Equals(b);
-                
-        }
-
-        /**
-         * Overrides != to return the opposite of Equals.
-         */
-        public static bool operator!= (Point a, Point b)
+        public bool isCloseTo(Point point, double epsilon)
         {
-            return !a.Equals(b);
-
+            if (point == null)
+                return false;
+            return (CoordinateCalculator.hasDifferenceLessThan(this.X, point.X, epsilon)
+                && CoordinateCalculator.hasDifferenceLessThan(this.Y, point.Y, epsilon));
         }
 
     }

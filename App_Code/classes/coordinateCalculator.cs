@@ -29,10 +29,10 @@ namespace PathFinding
             return (Math.Abs(a - b) < difference);
         }
 
-        public static bool isBetween(float coord, float coord_a, float coord_b)
+        public static bool isBetween(float coord, float coord_a, float coord_b, double epsilon)
         {
-            return ((coord > coord_a || CoordinateCalculator.hasDifferenceLessThan(coord, coord_a, 0.0001))
-                    && (coord < coord_b || CoordinateCalculator.hasDifferenceLessThan(coord, coord_b, 0.0001)));
+            return ((coord > coord_a || CoordinateCalculator.hasDifferenceLessThan(coord, coord_a, epsilon))
+                    && (coord < coord_b || CoordinateCalculator.hasDifferenceLessThan(coord, coord_b, epsilon)));
         }
 
     }

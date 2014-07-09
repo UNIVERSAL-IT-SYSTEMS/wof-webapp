@@ -46,7 +46,7 @@ namespace PathFinding
         public void addEdge(Node n1, Node n2, double scale)
         {
             double weight = CoordinateCalculator.euclideanDistance(n1.CrossingPoint, n2.CrossingPoint)/scale;
-            Edge new_edge = new Edge(n1, n1, weight);
+            Edge new_edge = new Edge(n1, n2, weight);
             addEdge(new_edge);
         }
         public void addEdge(Edge new_edge)
@@ -54,8 +54,6 @@ namespace PathFinding
             if (!edges.Contains(new_edge))
             {
                 edges.Add(new_edge);
-                new_edge.N1.Edges.Add(new_edge);
-                new_edge.N2.Edges.Add(new_edge);
             }
         }
 

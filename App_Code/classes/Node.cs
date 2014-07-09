@@ -113,19 +113,16 @@ namespace PathFinding
         }
 
         /**
-         * Overrides == operator to return result of Equals function.
+         * Returns true if the crossing points of two nodes are closer than epsilon
+         * 
+         * @param node the node to compare to
+         * @param epsilon the acceptable error
          */
-        public static bool operator ==(Node a, Node b)
+        public bool isCloseTo(Node node, double epsilon)
         {
-            return a.Equals(b);
-        }
-
-        /**
-         * Overrides != operator to return opposites of Equals function.
-         */
-        public static bool operator !=(Node a, Node b)
-        {
-            return !a.Equals(b);
+            if (node == null)
+                return false;
+            return (this.CrossingPoint.isCloseTo(node.CrossingPoint, epsilon)) && (this.OfficeLocation == node.OfficeLocation);
         }
     }
 }

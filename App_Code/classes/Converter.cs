@@ -16,6 +16,7 @@ namespace PathFinding
      */
     public class Converter
     {
+        private double epsilon;
 
         private Graph graph;
         public Graph Graph
@@ -37,7 +38,7 @@ namespace PathFinding
             graph = new Graph();
             lines = new List<Line>();
         }
-        public static Graph downloadMap(string filePath, double scale)
+        public static Graph downloadMap(string filePath, double scale, double epsilon)
         {
             
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -47,6 +48,7 @@ namespace PathFinding
             doc.Load(reader);
             Converter converter = new Converter();
             converter.Scale = scale;
+            converter.epsilon = epsilon;
             converter.transferData(doc);
             converter.generateEdges();
             return converter.graph;
@@ -114,7 +116,7 @@ namespace PathFinding
 
             for (int i = 2; i < coordinates.Length; i += 2)
             {
-                Point end_pt = new Point(getCoordinateFromString(coordinates[i]), getCoordinateFromString(coordinates[i+1]));
+                Point end_pt = new Point(getCoordinateFromString(coordinates[i]), getCoordinateFromString(coordinates[i + 1]));
                 transform(transformationData, end_pt);
                 // end_pt.translate(translationOffset.getX(), translationOffset.getY());
                // end_pt.rotate(rotationAngle);
@@ -127,7 +129,7 @@ namespace PathFinding
 
                     for (int j = 0; j < lines.Count; j++ )
                     {
-                        Point crossing_pt = curr_line.crosses(lines[j]);
+                        Point crossing_pt = curr_line.crosses(lines[j], epsilon);
                         if (!string.IsNullOrEmpty(Convert.ToString(crossing_pt)))
                         {
                             Node new_node = new Node();
@@ -249,10 +251,10 @@ namespace PathFinding
             for (int i = 0; i < lines.Count; i++)
             {
 
-                SortedNodeContainer container = new SortedNodeContainer();
+                SortedNodeContainer container = new SortedNodeContainer(epsilon);
                 for (int j = 0; j < graph.Nodes.Count; j++)
                 {
-                    if (lines[i].contains(graph.Nodes[j].CrossingPoint))
+                    if (lines[i].contains(graph.Nodes[j].CrossingPoint, epsilon))
                     {
                         container.Add(graph.Nodes[j]);
                     }
@@ -267,34 +269,38 @@ namespace PathFinding
             }
         }
 
-        private class SortedNodeContainer : List<Node>
+        public class SortedNodeContainer : List<Node>
         {
+            private double epsilon;
 
-            public SortedNodeContainer() { }
+            public SortedNodeContainer(double epsilon) 
+            {
+                this.epsilon = epsilon;
+            }
 
             public new void Add(Node newNode)
             {
                 if (Count <= 1 )
                 {
-                    Add(newNode);
+                    base.Add(newNode);
                 }
                 else
                 {
                     int first_ind = 0;
                     int last_ind = Count - 1;
-                    if (!(new Line(this[first_ind].CrossingPoint, this[last_ind].CrossingPoint).contains(newNode.CrossingPoint)))
+                    if (!(new Line(this[first_ind].CrossingPoint, this[last_ind].CrossingPoint).contains(newNode.CrossingPoint, epsilon)))
                     {
-                        if (new Line(newNode.CrossingPoint, this[last_ind].CrossingPoint).contains(this[first_ind].CrossingPoint))
+                        if (new Line(newNode.CrossingPoint, this[last_ind].CrossingPoint).contains(this[first_ind].CrossingPoint, epsilon))
                             Insert(0, newNode);
                         else
-                            Add(newNode);
+                            base.Add(newNode);
                     }
                     else
                     {
                         while (last_ind - first_ind > 1)
                         {
-                            int mid_ind = (last_ind - first_ind) / 2;
-                            if (new Line(this[first_ind].CrossingPoint, this[mid_ind].CrossingPoint).contains(newNode.CrossingPoint))
+                            int mid_ind = first_ind + ((last_ind - first_ind) / 2);
+                            if (new Line(this[first_ind].CrossingPoint, this[mid_ind].CrossingPoint).contains(newNode.CrossingPoint, epsilon))
                             {
                                 last_ind = mid_ind;
                             }
