@@ -18,7 +18,6 @@ namespace PathFinding
             if (p.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + p.X);
             if (p.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + p.Y);
             //test float decimal
-            Console.WriteLine("\nDone with Point tests.");
             Assert.Fail();
         }
     }

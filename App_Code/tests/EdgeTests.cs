@@ -24,6 +24,13 @@ namespace PathFinding
             if (ab.otherNode(a) != b) Console.WriteLine("Othernode not working. AB.otherNode(A) should be B.");
             if (ab.otherNode(b) != a) Console.WriteLine("Othernode not working. AB.otherNode(B) should be A.");
         }
+
+        [TestMethod]
+        public void CommonNodeTest()
+        {
+            //Test that node in common works.
+            Assert.Fail();
+        }
         [TestMethod]
         public void AddEdgeToNodesListOfEdgesTest()
         {

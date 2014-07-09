@@ -78,6 +78,25 @@ namespace PathFinding
         }
 
         /**
+         * Returns the endpoint that this edge and the given edge have in common. Throws an exception if no edge in common.
+         * 
+         * @param e the edge getting compared to.
+         * @return the endpiont that this edge and the given edge have in common. Or throws an exception if there is no endpoint in common.
+         */
+        public Node commonNode(Edge e)
+        {
+            if (this.containsNode(e.N1))
+            {
+                return e.N1;
+            }
+            if (this.containsNode(e.N2))
+            {
+                return e.N2;
+            }
+            throw new Exception("Edges to not connect.");
+        }
+
+        /**
          * Overrides the ToString() function to list the two endpoints of the edge.
          * 
          * @return a string noting the two endpoints of the edge.
