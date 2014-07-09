@@ -32,16 +32,16 @@ namespace PathFinding
             //Node tests
             Console.WriteLine(sectionBreak+ "Starting Node tests.\n");
             Node n = new Node();
-            if (n.CrossingPoint.X != 0) Console.WriteLine("Node instanciated without parameters should have x set to zero.");
-            if (n.CrossingPoint.Y != 0) Console.WriteLine("Node instanciated without parameters should have y set to zero.");
+            if (n.CrossingPoint.X != 0) Console.WriteLine("Node instantiated without parameters should have x set to zero.");
+            if (n.CrossingPoint.Y != 0) Console.WriteLine("Node instantiated without parameters should have y set to zero.");
             if (n.OfficeLocation.ToString() != n.ToString()) Console.WriteLine("ToString() should print out the office number.");
-            if (n.OfficeLocation != -1) Console.WriteLine("Node instanciated without parameters should have OfficeLocation set to -1.");
+            if (n.OfficeLocation != -1) Console.WriteLine("Node instantiated without parameters should have OfficeLocation set to -1.");
             n.CrossingPoint.X = 1;
             if (n.CrossingPoint.X != 1) Console.WriteLine("X-Coordinate not being set properly. Should be 1. Returning " + n.CrossingPoint.X);
             n.CrossingPoint.Y = 2;
             if (n.CrossingPoint.Y != 2) Console.WriteLine("Y-Coordinate not being set properly. Should be 2. Returning " + n.CrossingPoint.Y);
             n.OfficeLocation = 5;
-            if (n.OfficeLocation != 5) Console.WriteLine("Y-Coordinate not being set properly. Should be 5. Returning " + n.OfficeLocation);
+            if (n.OfficeLocation != 5) Console.WriteLine("OfficeLocation not being set properly. Should be 5. Returning " + n.OfficeLocation);
             n = new Node(7424, (float)3.0, (float)4.0);
             if (n.CrossingPoint.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + n.CrossingPoint.X);
             if (n.CrossingPoint.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + n.CrossingPoint.Y);

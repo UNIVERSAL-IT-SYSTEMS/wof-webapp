@@ -61,14 +61,14 @@ namespace PathFinding
         public void rotate(double angle)
         {
             double radianAngle = angle * Math.PI / 180;
-            double temp_x = Math.Cos(angle) * x - Math.Sin(angle) * y;
-            double temp_y = Math.Sin(angle) * x + Math.Cos(angle) * y;
+            double temp_x = Math.Cos(radianAngle) * x - Math.Sin(radianAngle) * y;
+            double temp_y = Math.Sin(radianAngle) * x + Math.Cos(radianAngle) * y;
             x = (float)temp_x;
             y = (float)temp_y;
         }
 
         /**
-         * Translates and then rotates the point.
+         * Rotates and then translates the point.
          * 
          * @param translateX the amount by which the point is shifted in the X-direction.
          * @param translateY the amount by which the piont is shifted in the Y-direction.
