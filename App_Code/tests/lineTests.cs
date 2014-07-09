@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PathFinding;
 
-namespace lineTest
+namespace PathFinding
 {
     [TestClass]
     public class pointTests
@@ -11,7 +10,7 @@ namespace lineTest
         public void testRotate()
         {
             Line test = new Line(new Point(-2, 3), new Point(2,1));
-            test.rotate(90 * Math.PI / 180);
+            test.rotate(90);
             Assert.AreEqual(-1, test.getEndPoint().X, 0.1, "the resulting end x coordinate is correct");
             Assert.AreEqual(2, test.getEndPoint().Y, 0.1, "the resulting end y coordinate is correct");
             Assert.AreEqual(-3, test.getStartPoint().X, 0.1, "the resulting start x coordinate is correct");
@@ -35,7 +34,7 @@ namespace lineTest
             Line a = new Line(new Point(0, 0), new Point(1, 1));
             Line b = new Line(new Point(-3, -3), new Point(-1, -1));
             
-            Assert.AreEqual(null, a.crosses(b), "the crossing point is correctely null");
+            Assert.AreEqual(null, a.crosses(b, 0.01), "the crossing point is correctely null");
             
         }
 
@@ -45,7 +44,7 @@ namespace lineTest
             Line a = new Line(new Point(0, 0), new Point(1, 1));
             Line b = new Line(new Point(-2, -2), new Point(-1, -1));
 
-            Assert.AreEqual(null, a.crosses(b), "the crossing point is correctely null");
+            Assert.AreEqual(null, a.crosses(b, 0.01), "the crossing point is correctely null");
 
         }
 
@@ -55,8 +54,8 @@ namespace lineTest
             Line a = new Line(new Point(0, 0), new Point(1, 1));
             Line b = new Line(new Point(-1, -1), new Point(0, 0));
 
-            Assert.AreEqual(0, a.crosses(b).X, "the crossing point x is correct");
-            Assert.AreEqual(0, a.crosses(b).Y, "the crossing point y is correct");
+            Assert.AreEqual(0, a.crosses(b, 0.01).X, "the crossing point x is correct");
+            Assert.AreEqual(0, a.crosses(b, 0.01).Y, "the crossing point y is correct");
 
         }
 
@@ -65,12 +64,12 @@ namespace lineTest
             Line a = new Line(new Point(0, 0), new Point(2, 2));
             Line b = new Line(new Point(0, 2), new Point(2, 0));
 
-            Assert.AreEqual(new Point(1, 1), a.crosses(b), "the crossing point is correctely the intersection point");
+            Assert.AreEqual(new Point(1, 1), a.crosses(b, 0.01), "the crossing point is correctely the intersection point");
 
             a = new Line(new Point(1, 0), new Point(1, 2));
             b = new Line(new Point(0, 0), new Point(2, 2));
 
-            Assert.AreEqual(new Point(1, 1), a.crosses(b), "the crossing point is correctely the intersection point for vertical line");
+            Assert.AreEqual(new Point(1, 1), a.crosses(b, 0.01), "the crossing point is correctely the intersection point for vertical line");
 
 
         }
@@ -98,11 +97,11 @@ namespace lineTest
         {
             Line test = new Line(new Point(0, 0), new Point(1, 1));
 
-            Assert.AreEqual(true, test.contains(new Point((float)0.5, (float)0.5)), 
-                "the line is correctely judged to contain the point"); 
-            Assert.AreEqual(false, test.contains(new Point(-1, -1)),
+            Assert.AreEqual(true, test.contains(new Point((float)0.5, (float)0.5), 0.01), 
+                "the line is correctely judged to contain the point");
+            Assert.AreEqual(false, test.contains(new Point(-1, -1), 0.01),
                 "the line is correctely judged to not contain the point");
-            Assert.AreEqual(true, test.contains(new Point(1, 1)),
+            Assert.AreEqual(true, test.contains(new Point(1, 1), 0.01),
                 "the line is correctely judged to contain the point"); 
 
         }
