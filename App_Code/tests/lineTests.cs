@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace PathFinding
 {
     [TestClass]
-    public class pointTests
+    public class LineTests
     {
         [TestMethod]
         public void testRotate()

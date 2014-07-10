@@ -51,6 +51,7 @@ namespace PathFinding
             converter.epsilon = epsilon;
             converter.transferData(doc);
             converter.generateEdges();
+            reader.Close();           
             return converter.graph;
         }
 
@@ -96,7 +97,6 @@ namespace PathFinding
                 processPath(path_data, transform, officeNumber);
                
             }
-            int a = 1;
         }
 
 
@@ -318,10 +318,7 @@ namespace PathFinding
             }
         }
 
-        public static void drawPath(string destination_file, string original_map, Path shortest_path)
-        {
-
-        }
+        
 
     }
 
