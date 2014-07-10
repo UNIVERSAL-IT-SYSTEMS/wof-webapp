@@ -66,6 +66,26 @@ namespace PathFinding
         }
 
         /**
+         * Returns a list of Directions.
+         */
+        public LinkedList<Direction> getListOfDirections()
+        {
+            LinkedList<Direction> listOfDirections = new LinkedList<Direction>();
+            Node previousNode = null;
+            LinkedListNode<Node> currentLinkedListNode = listOfNodes.First;
+            while(!currentLinkedListNode.Equals(listOfNodes.Last))
+            {
+                LinkedListNode<Node> nextLinkedListNode = currentLinkedListNode.next();
+                Node currentNode = currentLinkedListNode.Value;
+                Node nextNode = nextLinkedListNode.Value;
+                listOfDirections.AddLast(new Direction(previousNode, currentNode, nextNode));
+                previousNode = currentNode;
+                currentLinkedListNode = nextLinkedListNode;
+            }
+            return listOfDirections;
+        }
+
+        /**
          * Adds an edge to the Path. The reason we add an Edge
          * instead of a Node is because we need to ensure that the
          * node being added is connected to the previous lastNode in the

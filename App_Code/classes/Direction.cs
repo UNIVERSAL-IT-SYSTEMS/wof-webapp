@@ -56,6 +56,7 @@ namespace PathFinding
 
         private double getAngle(){
             //what if there is no angle1 (like for the first section of path?)
+            if (previousPoint == null) { return 0; }//if there is no previousPoint (like at the start of a path), the robot doesn't have to turn first.
             Vector currentHeading = new Vector(currentPoint.X - previousPoint.X, currentPoint.Y - previousPoint.Y);
             Vector newHeading = new Vector(nextPoint.X - currentPoint.X, nextPoint.Y - currentPoint.Y);
             return currentHeading.radianAngleTo(newHeading);
