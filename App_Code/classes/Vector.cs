@@ -28,7 +28,7 @@ namespace PathFinding
             return (this.X * v.X) + (this.Y * v.Y);
         }
 
-        public double scalarCrossProduct(Vector v)
+        public double determinant(Vector v)
         {
             return (this.X * v.Y) - (this.Y * v.X);
         }
@@ -41,7 +41,7 @@ namespace PathFinding
 
         public double radianAngleTo(Vector v)
         {
-            return Math.Atan2(this.scalarCrossProduct(v), this.dotProduct(v));
+            return Math.Atan2(this.determinant(v), this.dotProduct(v));
         }
 
         public double degreeAngleTo(Vector v)

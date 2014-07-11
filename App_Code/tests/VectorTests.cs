@@ -24,9 +24,13 @@ namespace PathFinding
         }
 
         [TestMethod]
-        public void ScalarCrossProductTest()
+        public void DeterminantTest()
         {
-            Assert.Fail();
+            Vector v1 = new Vector(2, 3);
+            Vector v2 = new Vector(5, 7);
+            double expectedDeterminant = -1;
+            Assert.AreEqual(expectedDeterminant, v1.determinant(v2));
+            Assert.AreEqual(-expectedDeterminant, v2.determinant(v1));
         }
 
         [TestMethod]
@@ -45,7 +49,6 @@ namespace PathFinding
             Assert.AreEqual(-expectedRadianAngle, v2.radianAngleTo(v1), 0.001, "Vectors not correctly calculating angle between themselves.");
 
             //When angles are exactly opposite, both orderings are equal to positive Pi.
-
         }
 
         [TestMethod]
@@ -63,8 +66,7 @@ namespace PathFinding
             Assert.AreEqual(expectedDegreeAngle, v1.degreeAngleTo(v2), 0.01, "Vectors not correctly calculating angle between themselves.");
             Assert.AreEqual(-expectedDegreeAngle, v2.degreeAngleTo(v1), 0.01, "Vectors not correctly calculating angle between themselves.");
 
-            //When angles are exactly opposite, both orderings are equal to positive Pi.
-
+            //When angles are exactly opposite, both orderings are equal to positive 180.
         }
     }
 }
