@@ -28,7 +28,15 @@ namespace PathFinding
         [TestMethod]
         public void CommonNodeTest()
         {
-            //Test that node in common works.
+            Node a = new Node();
+            Node b = new Node();
+            Edge ab = new Edge(a, b, 20);
+
+            Node c = new Node();
+            Edge ac = new Edge(a, c, 10);
+
+            Assert.AreEqual(a, ab.commonNode(ac), "CommonNode function not returning A as the common node between Edge AB and Edge AC.");
+            //Check that it throws exception with bad input
             Assert.Fail();
         }
         [TestMethod]
