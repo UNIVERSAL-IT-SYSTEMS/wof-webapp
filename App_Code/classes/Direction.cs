@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PathFinding
 {
-    class Direction
+    public class Direction
     {
         private Point previousPoint, currentPoint, nextPoint;
 
@@ -19,7 +19,7 @@ namespace PathFinding
         {
             get
             {
-                return getAngle();
+                return getDegreeAngle();
             }
         }
 
@@ -54,12 +54,40 @@ namespace PathFinding
             nextPoint = edge2.otherNode(currentNode).CrossingPoint;
         }
 
-        private double getAngle(){
+        /**
+         * Returns the negative angle because traditional coordinate positive and negative doesn't make sense for
+         * the robot. With the robot, right is positive angle, left is negative angle.
+         * 
+         *            A'
+         *            ^   C
+         *            |  /
+         *            | /
+         *     _______|/______
+         *            B
+         *            |
+         *            |
+         *            |
+         *            A
+         *            
+         * In the example graph above, given previous point A, current point B, and next point C,
+         * current Heading would be the vector BA', and the new Heading would be the vector BC.
+         * Degree angle would be 45* (not -45* as traditional coordinate system would dictate.) because
+         * from here, the robot needs to go right 45*. 
+         */
+        private double getDegreeAngle(){
             //what if there is no angle1 (like for the first section of path?)
             if (previousPoint == null) { return 0; }//if there is no previousPoint (like at the start of a path), the robot doesn't have to turn first.
             Vector currentHeading = new Vector(currentPoint.X - previousPoint.X, currentPoint.Y - previousPoint.Y);
             Vector newHeading = new Vector(nextPoint.X - currentPoint.X, nextPoint.Y - currentPoint.Y);
-            return currentHeading.radianAngleTo(newHeading);
+            return -currentHeading.degreeAngleTo(newHeading);
+        }
+        private double getRadianAngle()
+        {
+            //what if there is no angle1 (like for the first section of path?)
+            if (previousPoint == null) { return 0; }//if there is no previousPoint (like at the start of a path), the robot doesn't have to turn first.
+            Vector currentHeading = new Vector(currentPoint.X - previousPoint.X, currentPoint.Y - previousPoint.Y);
+            Vector newHeading = new Vector(nextPoint.X - currentPoint.X, nextPoint.Y - currentPoint.Y);
+            return -currentHeading.radianAngleTo(newHeading);
         }
 
 

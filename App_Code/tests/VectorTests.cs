@@ -47,5 +47,24 @@ namespace PathFinding
             //When angles are exactly opposite, both orderings are equal to positive Pi.
 
         }
+
+        [TestMethod]
+        public void DegreeAngleToTest()
+        {
+            Vector v1 = new Vector(0, 1);
+            Vector v2 = new Vector(1, 0);
+            double expectedDegreeAngle = -90;
+            Assert.AreEqual(expectedDegreeAngle, v1.degreeAngleTo(v2), 0.01, "Vectors not correctly calculating angle between themselves.");
+            Assert.AreEqual(-expectedDegreeAngle, v2.degreeAngleTo(v1), 0.01, "The angle in the opposite direction should be the negative of the angle in the original direction.");
+
+            v1 = new Vector(3, 4.001);
+            v2 = new Vector(-3, -4);
+            expectedDegreeAngle = 180;
+            Assert.AreEqual(expectedDegreeAngle, v1.degreeAngleTo(v2), 0.01, "Vectors not correctly calculating angle between themselves.");
+            Assert.AreEqual(-expectedDegreeAngle, v2.degreeAngleTo(v1), 0.01, "Vectors not correctly calculating angle between themselves.");
+
+            //When angles are exactly opposite, both orderings are equal to positive Pi.
+
+        }
     }
 }

@@ -43,5 +43,10 @@ namespace PathFinding
         {
             return Math.Atan2(this.scalarCrossProduct(v), this.dotProduct(v));
         }
+
+        public double degreeAngleTo(Vector v)
+        {
+            return radianAngleTo(v) * 180 / Math.PI;
+        }
     }
 }

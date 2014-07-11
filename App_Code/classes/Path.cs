@@ -75,7 +75,7 @@ namespace PathFinding
             LinkedListNode<Node> currentLinkedListNode = listOfNodes.First;
             while(!currentLinkedListNode.Equals(listOfNodes.Last))
             {
-                LinkedListNode<Node> nextLinkedListNode = currentLinkedListNode.next();
+                LinkedListNode<Node> nextLinkedListNode = currentLinkedListNode.Next;
                 Node currentNode = currentLinkedListNode.Value;
                 Node nextNode = nextLinkedListNode.Value;
                 listOfDirections.AddLast(new Direction(previousNode, currentNode, nextNode));
@@ -109,7 +109,7 @@ namespace PathFinding
          * 
          * @param p the Path this path is being compared to.
          * @return a number less than 0 if this path's cost is less than p's cost,
-         *         a number greater than 0 if this path's cost is greater than p's cost,
+         *         a number greater than 0 if this path's cost is pubgreater than p's cost,
          *         or 0 if the costs are the same.
          */
         public int CompareTo(Path p)
@@ -127,9 +127,9 @@ namespace PathFinding
             String s = "Path: <";
             foreach (Node n in listOfNodes)
             {
-                s += " (" + n.ToString() + ") ";
+                s += " (" + n.ToString() + ")";
             }
-            s += ">";
+            s += " >";
             return s;
         }
 
