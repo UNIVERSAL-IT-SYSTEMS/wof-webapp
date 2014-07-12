@@ -66,12 +66,17 @@ namespace PathFinding
         }
 
         /**
-         * Returns a list of Directions.
+         * Returns a list of Directions. The currentHeading of the robot is determined
+         * from the previousPoint. The first node of the path is taken as the current node.
+         * 
+         * @param previousPoint the point that the robot was at before reaching this point.
+         * @return A LinkedList of Direction objects specifying the correct order of direction.
          */
-        public LinkedList<Direction> getListOfDirections()
+        public LinkedList<Direction> getListOfDirections(Point previousPoint)
         {
             LinkedList<Direction> listOfDirections = new LinkedList<Direction>();
-            Node previousNode = null;
+            Node previousNode = new Node(-1, previousPoint);
+
             LinkedListNode<Node> currentLinkedListNode = listOfNodes.First;
             while(!currentLinkedListNode.Equals(listOfNodes.Last))
             {
@@ -84,6 +89,35 @@ namespace PathFinding
             }
             return listOfDirections;
         }
+
+        /**
+         * Returns a list of Directions. The currentHeading of the robot is determined
+         * from the previousNode. The first node of the path is taken as the current node.
+         * 
+         * @param previousNode the Node that the robot was at before reaching this point.
+         * @return A LinkedList of Direction objects specifying the correct order of direction.
+         */
+        public LinkedList<Direction> getListOfDirections(Node previousNode)
+        {
+            return getListOfDirections(previousNode.CrossingPoint);
+        }
+
+        /**
+         * Returns a list of Directions. When no current heading is specified, assume the robot
+         * is facing the correct direction already.
+         * 
+         * @return A LinkedList of Direction objects specifying the correct order of direction.
+         */
+        public LinkedList<Direction> getListOfDirections()
+        {
+            Point firstPoint = this.ListOfNodes.First.Value.CrossingPoint;
+            Point nextPoint = this.ListOfNodes.First.Next.Value.CrossingPoint;
+            //If no previous point is given, assume you are already pointed in the right direction.
+            //If the Robot always parks itself in the same hub, it will be facing the correct direction.
+            Point defaultPreviousPoint = new Point(firstPoint.X - nextPoint.X, firstPoint.Y - nextPoint.Y);
+            return getListOfDirections(defaultPreviousPoint);
+        }
+
 
         /**
          * Adds an edge to the Path. The reason we add an Edge

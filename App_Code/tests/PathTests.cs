@@ -115,6 +115,53 @@ namespace PathFinding
         [TestMethod]
         public void GetDirectionsFromPathTest()
         {
+            Point p1 = new Point(0, -1);
+            Point p2 = new Point(0, 0);
+            Point p3 = new Point(1, 1);
+            Point p4 = new Point(0, 1);
+            Point p5 = new Point(1, 1);
+
+            Node n1 = new Node(1, p1);
+            Node n2 = new Node(2, p2);
+            Node n3 = new Node(3, p3);
+            Node n4 = new Node(4, p4);
+            Node n5 = new Node(5, p5);
+
+            Edge onetwo = new Edge(n1, n2, 3);
+            Edge twothree = new Edge(n1, n2, 5);
+            Edge threefour = new Edge(n1, n2, 7);
+            Edge fourfive = new Edge(n1, n2, 9);
+
+            Path p = new Path(n1);
+            p.addEdgeToPath(onetwo);
+            p.addEdgeToPath(twothree);
+            p.addEdgeToPath(threefour);
+            p.addEdgeToPath(fourfive);
+
+            //LinkedList<Direction> listOfDirections = p.getListOfDirections();
+
+
+            double expectedAngle = 45;
+
+            Vector currentHeading = new Vector(p2.X - p1.X, p2.Y - p1.Y);
+            Vector newHeading = new Vector(p3.X - p2.X, p3.Y - p2.Y);
+            Assert.AreEqual(0, currentHeading.X, "Current heading x not correct.");
+            Assert.AreEqual(1, currentHeading.Y, "Current heading y not correct.");
+            Assert.AreEqual(1, newHeading.X, "New heading x not correct.");
+            Assert.AreEqual(1, newHeading.Y, "New heading y not correct.");
+
+
+            Direction directionFromPoints = new Direction(p1, p2, p3);
+            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 1 not being calculated correctly.");
+            
+            expectedAngle = -135;
+            directionFromPoints = new Direction(p2, p3, p4);
+            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 2 not being calculated correctly.");
+
+            expectedAngle = 180;
+            directionFromPoints = new Direction(p3, p4, p5);
+            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 3 not being calculated correctly.");
+           
             Assert.Fail();
         }
     }
