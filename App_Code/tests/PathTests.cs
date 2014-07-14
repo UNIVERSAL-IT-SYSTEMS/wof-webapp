@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PathFinding
@@ -169,9 +170,9 @@ namespace PathFinding
             Node n5 = new Node(5, p5);
 
             Edge onetwo = new Edge(n1, n2, 3);
-            Edge twothree = new Edge(n1, n2, 5);
-            Edge threefour = new Edge(n1, n2, 7);
-            Edge fourfive = new Edge(n1, n2, 9);
+            Edge twothree = new Edge(n2, n3, 5);
+            Edge threefour = new Edge(n3, n4, 7);
+            Edge fourfive = new Edge(n4, n5, 9);
 
             Path p = new Path(n1);
             p.addEdgeToPath(onetwo);
@@ -179,31 +180,59 @@ namespace PathFinding
             p.addEdgeToPath(threefour);
             p.addEdgeToPath(fourfive);
 
-            //LinkedList<Direction> listOfDirections = p.getListOfDirections();
+            LinkedList<Direction> listOfDirections = p.getListOfDirections();
 
+            Point p0 = new Point(2*p1.X - p2.X, 2*p1.Y - p2.Y); //immaginary previous point. Assuming the robot is already facing the right direction.
+            Direction expectedFirstDirection = new Direction(p0, p1, p2);
+            Direction firstDirection = listOfDirections.First.Value;
+            Assert.AreEqual(expectedFirstDirection, firstDirection, "First direction not calculated properly.");
 
-            double expectedAngle = 45;
+            Direction expectedSecondDirection = new Direction(p1, p2, p3);
+            Direction secondDirection = listOfDirections.First.Next.Value;
+            Assert.AreEqual(expectedSecondDirection, secondDirection, "Second direction not calculated properly.");
 
-            Vector currentHeading = new Vector(p2.X - p1.X, p2.Y - p1.Y);
-            Vector newHeading = new Vector(p3.X - p2.X, p3.Y - p2.Y);
-            Assert.AreEqual(0, currentHeading.X, "Current heading x not correct.");
-            Assert.AreEqual(1, currentHeading.Y, "Current heading y not correct.");
-            Assert.AreEqual(1, newHeading.X, "New heading x not correct.");
-            Assert.AreEqual(1, newHeading.Y, "New heading y not correct.");
+            Direction expectedThirdDirection = new Direction(p2, p3, p4);
+            Direction thirdDirection = listOfDirections.First.Next.Next.Value;
+            Assert.AreEqual(expectedThirdDirection, thirdDirection, "Third direction not calculated properly.");
 
+            Direction expectedFourthDirection = new Direction(p3, p4, p5);
+            Direction fourthDirection = listOfDirections.First.Next.Next.Next.Value;
+            Assert.AreEqual(expectedFourthDirection, fourthDirection, "Fourth direction not calculated properly.");
 
-            Direction directionFromPoints = new Direction(p1, p2, p3);
-            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 1 not being calculated correctly.");
-            
-            expectedAngle = -135;
-            directionFromPoints = new Direction(p2, p3, p4);
-            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 2 not being calculated correctly.");
-
-            expectedAngle = 180;
-            directionFromPoints = new Direction(p3, p4, p5);
-            Assert.AreEqual(expectedAngle, directionFromPoints.Angle, "Angle 3 not being calculated correctly.");
-           
-            Assert.Fail();
+            Assert.AreEqual(listOfDirections.Last.Value, fourthDirection, "Fourth direction should be the last direction. Too many directions created.");
         }
+
+        [TestMethod]
+        public void GetJSONDirectionsFromPathTest()
+        {
+            Point p1 = new Point(0, -1);
+            Point p2 = new Point(0, 0);
+            Point p3 = new Point(1, 1);
+            Point p4 = new Point(0, 1);
+            Point p5 = new Point(1, 1);
+
+            Node n1 = new Node(1, p1);
+            Node n2 = new Node(2, p2);
+            Node n3 = new Node(3, p3);
+            Node n4 = new Node(4, p4);
+            Node n5 = new Node(5, p5);
+
+            Edge onetwo = new Edge(n1, n2, 3);
+            Edge twothree = new Edge(n2, n3, 5);
+            Edge threefour = new Edge(n3, n4, 7);
+            Edge fourfive = new Edge(n4, n5, 9);
+
+            Path p = new Path(n1);
+            p.addEdgeToPath(onetwo);
+            p.addEdgeToPath(twothree);
+            p.addEdgeToPath(threefour);
+            p.addEdgeToPath(fourfive);
+
+            LinkedList<Direction> listOfDirections = p.getListOfDirections();
+            String jsonDirections = p.getJSONDirections();
+            String expectedDirections = "[{\"Distance\":1,\"Angle\":0},{\"Distance\":1.4142135623730952,\"Angle\":45},{\"Distance\":1,\"Angle\":-135},{\"Distance\":1,\"Angle\":180}]";
+            Assert.AreEqual(expectedDirections, jsonDirections, "JSON directions incorrect.");
+        }
+
     }
 }

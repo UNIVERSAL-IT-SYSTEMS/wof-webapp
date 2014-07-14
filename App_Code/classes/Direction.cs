@@ -90,6 +90,49 @@ namespace PathFinding
             return -currentHeading.radianAngleTo(newHeading);
         }
 
+        public string getJSONDirection()
+        {
+            var javaScriptSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            string jsonString = javaScriptSerializer.Serialize(this);
+            return jsonString;
+        }
+
+        public override string ToString()
+        {
+            return getJSONDirection();
+        }
+
+        /**
+         * Overrides the Equals function.
+         * Returns true if the angle and distance values are equal.
+         * 
+         * @param obj the Object being compared to this instance.
+         * @return whether obj has the same angle and distance as this instance.
+         */
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            Direction d = (Direction)obj;
+            return (this.Angle.Equals(d.Angle) && this.Distance.Equals(d.Distance));
+        }
+
+
+        /**
+         * Returns true if the x and y coordinates of two points are closer than epsilon
+         * 
+         * @param point the point to compare to
+         * @param epsilon the acceptable error
+         */
+        public bool isCloseTo(Direction direction, double epsilon)
+        {
+            if (direction == null)
+                return false;
+            return (CoordinateCalculator.hasDifferenceLessThan((float)this.Angle, (float)direction.Angle, epsilon)
+                && CoordinateCalculator.hasDifferenceLessThan((float)this.Distance, (float)direction.Distance, epsilon));
+        }
+            
 
 
     }

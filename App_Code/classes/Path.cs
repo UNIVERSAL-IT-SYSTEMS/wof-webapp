@@ -192,6 +192,16 @@ namespace PathFinding
             return s;
         }
 
+        /**
+         * Returns the JSON representation of the list of directions.
+         */
+        public string getJSONDirections()
+        {
+            var javaScriptSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            string jsonString = javaScriptSerializer.Serialize(this.getListOfDirections());
+            return jsonString;
+        }
+
 
     }
 }

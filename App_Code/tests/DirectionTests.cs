@@ -91,5 +91,24 @@ namespace PathFinding
             directionFromPoints = new Direction(p3, p4, p5);
             Assert.AreEqual(expectedDistance, directionFromPoints.Distance, "Distance 3 not being calculated correctly.");
         }
+
+        [TestMethod]
+        public void DistanceJSONSerializationTest()
+        {
+            Point p1 = new Point(0, -1);
+            Point p2 = new Point(0, 0);
+            Point p3 = new Point(1, 0);
+            Direction direction = new Direction(p1, p2, p3);
+
+            String expectedJSON = "{\"Distance\":" + direction.Distance + ",\"Angle\":" + direction.Angle + "}";
+            String jsonDirection = direction.getJSONDirection();
+            Assert.AreEqual(expectedJSON, jsonDirection, "Distance not being serialized to JSON correctly.");
+        }
+
+        [TestMethod]
+        public void DirectionEqualsOverrideTest()
+        {
+            Assert.Fail();
+        }
     }
 }
