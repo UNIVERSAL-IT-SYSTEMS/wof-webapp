@@ -66,6 +66,47 @@ namespace PathFinding
         }
 
         [TestMethod]
+        public void PathEqualTest()
+        {
+            Node a = new Node(1, 0, 0);
+            Node b = new Node(2, 0, 0);
+            Node c = new Node(3, 0, 0);
+
+            Edge ab = new Edge(a, b, 10);
+            Edge ac = new Edge(a, c, 10);
+            Edge abLonger = new Edge(a, b, 20);
+
+            Path samePath1 = new Path(a);
+            Path samePath2 = new Path(a);
+
+            Assert.AreEqual(samePath1, samePath2, "Two paths with the same nodes in the same order should be equal.");
+
+            samePath1.addEdgeToPath(ab);
+            samePath2.addEdgeToPath(ab);
+
+            Assert.AreEqual(samePath1, samePath2, "Two paths with the same nodes in the same order should be equal.");
+            
+            Path differentNodesPath1 = new Path(a);
+            differentNodesPath1.addEdgeToPath(ac);
+            Assert.AreNotEqual(samePath1, differentNodesPath1, "Two paths with different nodes should not be equal.");
+
+            Path differentCostPath1 = new Path(a);
+            differentCostPath1.addEdgeToPath(abLonger);
+            Assert.AreNotEqual(samePath1, differentCostPath1, "Two paths with different costs should not be equal.");
+
+            Path differentOrderPath1 = new Path(b);
+            differentOrderPath1.addEdgeToPath(ab);
+            Assert.AreNotEqual(samePath1, differentOrderPath1, "Two paths with nodes in different orders should not be equal.");
+            
+            Path longerPath1 = new Path(a);
+            longerPath1.addEdgeToPath(ab);
+            Edge bc = new Edge(b, c, 10);
+            longerPath1.addEdgeToPath(bc);
+
+            Assert.AreNotEqual(samePath1, longerPath1, "Two paths with different costs and nodes should not be equal.");
+        }
+
+        [TestMethod]
         public void PathCompareToTest()
         {
             Node a = new Node();

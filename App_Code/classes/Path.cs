@@ -152,6 +152,31 @@ namespace PathFinding
         }
 
         /**
+         * Overrides the Equals functions and tests for value equality.
+         * Returns true if obj is also a Path with the same nodes in the same order, with the same total cost.
+         * 
+         * @param obj the Object being compared to this instance.
+         * @return whether obj represents the same path as this instance.
+         */
+        public override bool Equals(Object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+                return false;
+            Path p = (Path)obj;
+            if (!this.cost.Equals(p.cost)) return false;
+            LinkedListNode<Node> pCurrentLinkedListNode = p.ListOfNodes.First;
+            foreach (Node n in this.listOfNodes)
+            {
+                if (!n.Equals(pCurrentLinkedListNode.Value))
+                {
+                    return false;
+                }
+                pCurrentLinkedListNode = pCurrentLinkedListNode.Next;
+            }
+            return true;
+        }
+
+        /**
          * Overrides the ToString() function to return a list of the nodes the path contains.
          * 
          * @return a string listing out the nodes that make up the path.

@@ -7,18 +7,47 @@ namespace PathFinding
     public class MinCostPathFinderTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void MinCostPathFinderTest()
         {
-            Point p = new Point(0, 0);
-            p.X = 1;
-            if (p.X != 1) Console.WriteLine("X-Coordinate not being set properly. Should be 1. Returning " + p.X);
-            p.Y = 2;
-            if (p.Y != 2) Console.WriteLine("Y-Coordinate not being set properly. Should be 2. Returning " + p.Y);
-            p = new Point((float)3.0, (float)4.0);
-            if (p.X != 3.0) Console.WriteLine("X-Coordinate not being set properly. Should be 3. Returning " + p.X);
-            if (p.Y != 4.0) Console.WriteLine("Y-Coordinate not being set properly. Should be 4. Returning " + p.Y);
-            //test float decimal
-            Assert.Fail();
+            MinCostPathFinder pathFinder = new MinCostPathFinder();
+            Node one = new Node(1, 0, 0);
+
+            Path path1 = new Path(one);
+            Path testPath = pathFinder.findPath(one, one);
+            Assert.AreEqual(path1, pathFinder.findPath(one, one));
+
+            Node two = new Node(2, 0, 0);
+            Edge onetwo = new Edge(one, two, 5.0);
+
+            Path path12 = new Path(one);
+            path12.addEdgeToPath(onetwo);
+            Assert.AreEqual(path12, pathFinder.findPath(one, two));
+
+            Node three = new Node(3, 0, 0);
+            Edge twothree = new Edge(two, three, 5.0);
+            Path path123 = new Path(path12);
+            path123.addEdgeToPath(twothree);
+            Assert.AreEqual(path12, pathFinder.findPath(one, two));
+            Assert.AreEqual(path123, pathFinder.findPath(one, three));
+
+            Node four = new Node(4, 0, 0);
+            Edge twofour = new Edge(two, four, 1.0);
+            Assert.AreEqual(path123, pathFinder.findPath(one, three));
+
+            Edge threefour = new Edge(three, four, 1.0);
+
+            Path path1243 = new Path(path12);
+            path1243.addEdgeToPath(twofour);
+            path1243.addEdgeToPath(threefour);
+
+            Assert.AreEqual(path1243, pathFinder.findPath(one, three));
+
+            Path path3421 = new Path(three);
+            path3421.addEdgeToPath(threefour);
+            path3421.addEdgeToPath(twofour);
+            path3421.addEdgeToPath(onetwo);
+
+            Assert.AreEqual(path3421, pathFinder.findPath(three, one));
         }
     }
 }
