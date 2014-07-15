@@ -23,7 +23,20 @@ namespace PathFinding
             Edge ab = new Edge(a, b, 20);
             if (ab.otherNode(a) != b) Console.WriteLine("Othernode not working. AB.otherNode(A) should be B.");
             if (ab.otherNode(b) != a) Console.WriteLine("Othernode not working. AB.otherNode(B) should be A.");
+
+            //check that throws expecption with bad input
         }
+        
+        [TestMethod, ExpectedException(typeof(Exception), "otherNode should throw an exception when a node is passed in that isn't one of the endpoints of that edge.")]
+        public void InappropriateNodePassedToOtherNode()
+        {
+            Node a = new Node();
+            Node b = new Node();
+            Node c = new Node();
+            Edge ab = new Edge(a, b, 20);
+            ab.otherNode(c);
+        }
+
 
         [TestMethod]
         public void CommonNodeTest()
@@ -36,9 +49,18 @@ namespace PathFinding
             Edge ac = new Edge(a, c, 10);
 
             Assert.AreEqual(a, ab.commonNode(ac), "CommonNode function not returning A as the common node between Edge AB and Edge AC.");
-            //Check that it throws exception with bad input
-            Assert.Fail();
         }
+
+        [TestMethod, ExpectedException(typeof(Exception), "commonNode should throw an exception when two edges are passed in that don't have a common node.")]
+        public void InappropriateEdgesPassedToCommonNode()
+        {
+            Node a = new Node();
+            Node b = new Node();
+            Node c = new Node();
+            Edge ab = new Edge(a, b, 20);
+            ab.otherNode(c);
+        }
+
         [TestMethod]
         public void AddEdgeToNodesListOfEdgesTest()
         {
