@@ -230,9 +230,8 @@ namespace PathFinding
 
             LinkedList<Direction> listOfDirections = p.getListOfDirections();
             String jsonDirections = p.getJSONDirections();
-            String expectedDirections = "[{\"Distance\":1,\"Angle\":0},{\"Distance\":1.4142135623730952,\"Angle\":45},{\"Distance\":1,\"Angle\":-135},{\"Distance\":1,\"Angle\":180}]";
+            String expectedDirections = "[{\"angle\":0,\"distance\":1},{\"angle\":45,\"distance\":1.4142135623730952},{\"angle\":-135,\"distance\":1},{\"angle\":180,\"distance\":1}]";
             Assert.AreEqual(expectedDirections, jsonDirections, "JSON directions incorrect.");
         }
-
     }
 }

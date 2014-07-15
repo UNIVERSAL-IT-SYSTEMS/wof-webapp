@@ -10,12 +10,7 @@ namespace PathFinding
     {
         private Point previousPoint, currentPoint, nextPoint;
 
-        private double distance;
-        public double Distance
-        {
-            get { return distance; }
-        }
-        public double Angle
+        public double angle
         {
             get
             {
@@ -23,12 +18,19 @@ namespace PathFinding
             }
         }
 
+        private double _distance;
+        public double distance
+        {
+            get { return _distance; }
+        }
+
+
         public Direction(Point previousPoint, Point currentPoint, Point nextPoint)
         {
             this.previousPoint = previousPoint;
             this.currentPoint = currentPoint;
             this.nextPoint = nextPoint;
-            distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
+            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
         }
 
         public Direction(Node previousNode, Node currentNode, Node nextNode)
@@ -36,7 +38,7 @@ namespace PathFinding
             this.previousPoint = previousNode.CrossingPoint;
             this.currentPoint = currentNode.CrossingPoint;
             this.nextPoint = nextNode.CrossingPoint;
-            distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
+            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
         }
 
         /**
@@ -47,7 +49,7 @@ namespace PathFinding
          */
         public Direction(Edge edge1, Edge edge2)
         {
-            distance = edge2.Weight;
+            _distance = edge2.Weight;
             Node currentNode = edge1.commonNode(edge2);
             currentPoint = currentNode.CrossingPoint;
             previousPoint = edge1.otherNode(currentNode).CrossingPoint;
@@ -115,7 +117,7 @@ namespace PathFinding
             if (obj == null || GetType() != obj.GetType())
                 return false;
             Direction d = (Direction)obj;
-            return (this.Angle.Equals(d.Angle) && this.Distance.Equals(d.Distance));
+            return (this.angle.Equals(d.angle) && this.distance.Equals(d.distance));
         }
 
 
@@ -129,8 +131,8 @@ namespace PathFinding
         {
             if (direction == null)
                 return false;
-            return (CoordinateCalculator.hasDifferenceLessThan((float)this.Angle, (float)direction.Angle, epsilon)
-                && CoordinateCalculator.hasDifferenceLessThan((float)this.Distance, (float)direction.Distance, epsilon));
+            return (CoordinateCalculator.hasDifferenceLessThan((float)this.angle, (float)direction.angle, epsilon)
+                && CoordinateCalculator.hasDifferenceLessThan((float)this.distance, (float)direction.distance, epsilon));
         }
             
 
