@@ -49,5 +49,28 @@ namespace PathFinding
 
             Assert.AreEqual(path3421, pathFinder.findPath(three, one));
         }
+
+        [TestMethod]
+        public void MinCostPathFinderFromSVGTest()
+        {
+            string filePath = "../map.svg";
+            double error = 0.1;
+            double scale = CoordinateCalculator.getScale(new Point(0, 792), new Point(162, 792), 15);
+
+            double epsilon = error * scale;
+            Graph my_graph = Converter.downloadMap(filePath, scale, epsilon);
+
+            //these parameters will be passed every time the search is activated
+            int start_office = 7038;
+            int end_office = 7236;
+
+            Node start_node = my_graph.findNodeByOfficeNumber(start_office);
+            Node end_node = my_graph.findNodeByOfficeNumber(end_office);
+            MinCostPathFinder pathfinder = new MinCostPathFinder();
+            Path shortest_path = pathfinder.findPath(start_node, end_node);
+            String jsonInstructions = shortest_path.getJSONDirections();
+
+            //Assert.Fail(); //uncomment to look at the jsonInstructions to make sure they make sense
+        }
     }
 }

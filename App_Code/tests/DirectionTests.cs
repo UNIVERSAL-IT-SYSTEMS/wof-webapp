@@ -108,7 +108,29 @@ namespace PathFinding
         [TestMethod]
         public void DirectionEqualsOverrideTest()
         {
-            Assert.Fail();
+            Point p11 = new Point(0, -1);
+            Point p12 = new Point(0, 0);
+            Point p13 = new Point(1, 0);
+            Direction direction1 = new Direction(p11, p12, p13);
+
+            Point p21 = new Point(0, -10); //different first point, but still same angle and distance
+            Point p22 = new Point(0, 0);
+            Point p23 = new Point(1, 0);
+            Direction direction2 = new Direction(p21, p22, p23);
+
+            Point p31 = new Point(-1, -1); //different first point, causing different angle
+            Point p32 = new Point(0, 0);
+            Point p33 = new Point(1, 0);
+            Direction direction3 = new Direction(p31, p32, p33);
+
+            Point p41 = new Point(0, -1); 
+            Point p42 = new Point(0, 0);
+            Point p43 = new Point(2, 0); //different last point, causing different distance
+            Direction direction4 = new Direction(p41, p42, p43);
+
+            Assert.AreEqual(direction1, direction2, "Directions with the same angle and distance should be considered equal.");
+            Assert.AreNotEqual(direction1, direction3, "Directions with different angles should not be considered equal.");
+            Assert.AreNotEqual(direction1, direction4, "Directions with different distances should not be considered equal.");
         }
     }
 }
