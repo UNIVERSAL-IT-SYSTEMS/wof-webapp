@@ -37,6 +37,12 @@ namespace PathFinding
             this.y = y;
         }
 
+        public Point()
+        {
+            this.x = 0;
+            this.y = 0;
+        }
+
         /**
          * Shifts the point by translateX and translateY.
          * 

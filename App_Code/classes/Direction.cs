@@ -25,20 +25,20 @@ namespace PathFinding
         }
 
 
-        public Direction(Point previousPoint, Point currentPoint, Point nextPoint)
+        public Direction(Point previousPoint, Point currentPoint, Point nextPoint, double scale)
         {
             this.previousPoint = previousPoint;
             this.currentPoint = currentPoint;
             this.nextPoint = nextPoint;
-            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
+            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint) / scale;
         }
 
-        public Direction(Node previousNode, Node currentNode, Node nextNode)
+        public Direction(Node previousNode, Node currentNode, Node nextNode, double scale)
         {
             this.previousPoint = previousNode.CrossingPoint;
             this.currentPoint = currentNode.CrossingPoint;
             this.nextPoint = nextNode.CrossingPoint;
-            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint);
+            _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint) / scale;
         }
 
         /**
@@ -81,7 +81,7 @@ namespace PathFinding
             if (previousPoint == null) { return 0; }//if there is no previousPoint (like at the start of a path), the robot doesn't have to turn first.
             Vector currentHeading = new Vector(currentPoint.X - previousPoint.X, currentPoint.Y - previousPoint.Y);
             Vector newHeading = new Vector(nextPoint.X - currentPoint.X, nextPoint.Y - currentPoint.Y);
-            return -currentHeading.degreeAngleTo(newHeading);
+            return currentHeading.degreeAngleTo(newHeading);
         }
         private double getRadianAngle()
         {

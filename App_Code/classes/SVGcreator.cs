@@ -7,9 +7,20 @@ using System.Xml;
 
 namespace PathFinding
 {
+
+   /*
+    * OPTIONAL:
+    * this class is for testing the results of the serach. It graphically draws the path or the graph on a map
+    */
     class SVGcreator
     {
 
+        /*
+         * Draws the path on an SVG map and stores the new map in the destination_file
+         * @param destination_file path to store the resulting image
+         * @param original_map path to map to draw upon
+         * @param shortest_path path to draw
+         */
         public static void drawPath(string destination_file, string original_map, Path shortest_path)
         {
             if (shortest_path.ListOfNodes.Count == 0)
@@ -47,6 +58,12 @@ namespace PathFinding
             reader.Close();
         }
 
+        /*
+        * Draws the nodes on an SVG map and stores the new map in the destination_file
+        * @param destination_file path to store the resulting image
+        * @param original_map path to map to draw upon
+        * @param my_graph graph containing nodes to draw
+        */
         public static void drawNodes(string destination_file, string original_map, Graph my_graph)
         {
 
@@ -78,6 +95,12 @@ namespace PathFinding
             reader.Close();
         }
 
+        /*
+        * Draws the edges on an SVG map and stores the new map in the destination_file
+        * @param destination_file path to store the resulting image
+        * @param original_map path to map to draw upon
+        * @param my_graph graph containing edges to draw
+        */
         public static void drawEdges(string destination_file, string original_map, Graph my_graph)
         {
 
@@ -110,5 +133,6 @@ namespace PathFinding
             doc.Save(destination_file);
             reader.Close();
         }
+      
     }
 }

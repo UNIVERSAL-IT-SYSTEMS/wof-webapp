@@ -7,23 +7,7 @@ namespace calcTest
     [TestClass]
     public class converterTests
     {
-      
-
-        [TestMethod]
-        public void testExtractTranslate()
-        {
-            Assert.AreEqual(830.029, Converter.extractTranslate("translate(830.029,-195.529) rotate(45)").X,
-                0.01, "The x coordinate is correctely extracted");
-            Assert.AreEqual(-195.529, Converter.extractTranslate("translate(830.029,-195.529) rotate(45)").Y,
-                0.01, "The y coordinate is correctely extracted");
-        }
-
-        [TestMethod]
-        public void testExtractRotate()
-        {
-            Assert.AreEqual<double>(45, Converter.extractRotate("translate(830.029,-195.529) rotate(45)"),
-                "The angle is correctely extracted");
-        }
+     
 
         [TestMethod]
         public void testStartNewLine()
@@ -46,9 +30,9 @@ namespace calcTest
         }
 
         [TestMethod]
-        public void testExtractOfficeNumber()
+        public void testExtract()
         {
-            Assert.AreEqual<int>(7050, Converter.extractOfficeNumber("VT4(7050)"),
+            Assert.AreEqual<int>(7050, Converter.extractNumberFromParentheses("VT4(7050)"),
                 "The office number is correctely extracted");
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PathFinding
 {
-    class MinCostPathFinder
+    public class MinCostPathFinder
     {
         //The list of paths we could explore.
         private List<Path> paths;

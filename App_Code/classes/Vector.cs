@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PathFinding
 {
-    class Vector
+    public class Vector
     {
         private double x, y;
         public double X

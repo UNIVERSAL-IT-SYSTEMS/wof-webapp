@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace PathFinding
 {
@@ -72,7 +73,7 @@ namespace PathFinding
          * @param previousPoint the point that the robot was at before reaching this point.
          * @return A LinkedList of Direction objects specifying the correct order of direction.
          */
-        public LinkedList<Direction> getListOfDirections(Point previousPoint)
+        public LinkedList<Direction> getListOfDirections(Point previousPoint, double scale)
         {
             LinkedList<Direction> listOfDirections = new LinkedList<Direction>();
             Node previousNode = new Node(-1, previousPoint);
@@ -83,7 +84,7 @@ namespace PathFinding
                 LinkedListNode<Node> nextLinkedListNode = currentLinkedListNode.Next;
                 Node currentNode = currentLinkedListNode.Value;
                 Node nextNode = nextLinkedListNode.Value;
-                listOfDirections.AddLast(new Direction(previousNode, currentNode, nextNode));
+                listOfDirections.AddLast(new Direction(previousNode, currentNode, nextNode, scale));
                 previousNode = currentNode;
                 currentLinkedListNode = nextLinkedListNode;
             }
@@ -97,9 +98,9 @@ namespace PathFinding
          * @param previousNode the Node that the robot was at before reaching this point.
          * @return A LinkedList of Direction objects specifying the correct order of direction.
          */
-        public LinkedList<Direction> getListOfDirections(Node previousNode)
+        public LinkedList<Direction> getListOfDirections(Node previousNode, double scale)
         {
-            return getListOfDirections(previousNode.CrossingPoint);
+            return getListOfDirections(previousNode.CrossingPoint, scale);
         }
 
         /**
@@ -108,14 +109,14 @@ namespace PathFinding
          * 
          * @return A LinkedList of Direction objects specifying the correct order of direction.
          */
-        public LinkedList<Direction> getListOfDirections()
+        public LinkedList<Direction> getListOfDirections(double scale)
         {
             Point firstPoint = this.ListOfNodes.First.Value.CrossingPoint;
             Point nextPoint = this.ListOfNodes.First.Next.Value.CrossingPoint;
             //If no previous point is given, assume you are already pointed in the right direction.
             //If the Robot always parks itself in the same hub, it will be facing the correct direction.
             Point defaultPreviousPoint = new Point(firstPoint.X - nextPoint.X, firstPoint.Y - nextPoint.Y);
-            return getListOfDirections(defaultPreviousPoint);
+            return getListOfDirections(defaultPreviousPoint, scale);
         }
 
 
@@ -195,10 +196,11 @@ namespace PathFinding
         /**
          * Returns the JSON representation of the list of directions.
          */
-        public string getJSONDirections()
+        public string getJSONDirections(double scale)
         {
             var javaScriptSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-            string jsonString = javaScriptSerializer.Serialize(this.getListOfDirections());
+            string jsonString = javaScriptSerializer.Serialize(this.getListOfDirections(scale));
+            jsonString = "{\"commandList\":" + jsonString + "}";
             return jsonString;
         }
 

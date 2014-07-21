@@ -28,6 +28,11 @@ namespace PathFinding
             get { return weight; }
         }
 
+        public Edge()
+        {
+            this.weight = 0;
+        }
+
         /**
          * Creates an edge with endpoints n1 and n2, and the given weight.
          * Adds this edge to the list of edges that branch off of n1, and n2.

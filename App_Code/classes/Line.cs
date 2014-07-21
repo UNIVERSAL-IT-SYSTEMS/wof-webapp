@@ -38,10 +38,12 @@ namespace PathFinding
             return end_pt;
         }
 
+
         public int getOfficeNumber()
         {
             return officeNumber;
         }
+
 
         public void setStartPoint(Point start_pt)
         {
@@ -53,10 +55,12 @@ namespace PathFinding
             this.end_pt = end_pt;
         }
 
+
         public void setOfficeNumber(int number)
         {
             officeNumber = number;
         }
+
 
         public void translate(float translateX, float translateY)
         {
@@ -71,7 +75,13 @@ namespace PathFinding
             end_pt.rotate(angle);
         }
 
-        //returns null if no cross, pt if crosses
+        /*
+         * Returns the crossing point is the line crosses the other line, null if the lines do not cross
+         * (!) lines are assued to be finite, starting at the start point, and ending at the end point
+         * @param line the other line
+         * @param epsilon the amount of error that is permittable for two points to be considered equal
+         * (two points that are closer than epsilon will be considered equal)
+         */
         public Point crosses(Line line, double epsilon)
         {
             if (CoordinateCalculator.hasDifferenceLessThan(end_pt.X, start_pt.X, epsilon)
@@ -117,6 +127,10 @@ namespace PathFinding
             return null;
         }
 
+        /*
+         * @return the slope of the line
+         * throws an exception if line is vertical
+         */ 
         public float getSlope()
         {
             if (end_pt.X == start_pt.X)
@@ -125,16 +139,16 @@ namespace PathFinding
             return (end_pt.Y - start_pt.Y) / (end_pt.X - start_pt.X);
         }
 
-        public float getConstant()
+        /*
+        * @return the constant of the line
+        * throws an exception if line is vertical
+        */ 
+        public float getConstant() 
         {
             return (end_pt.Y - (end_pt.X * getSlope()));
         }
 
 
-
-        /**
-         * checks if the point known to be on a geometric infinite line is in the interval set by the given vector (finite "line" with endpoints)
-         */
         private bool containsInVector(Point point, double epsilon)
         {
             return ((CoordinateCalculator.isBetween(point.X, this.getStartPoint().X, this.getEndPoint().X, epsilon)
@@ -143,6 +157,12 @@ namespace PathFinding
                 || CoordinateCalculator.isBetween(point.Y, this.getEndPoint().Y, this.getStartPoint().Y, epsilon)));
         }
 
+        /*
+         * Returns true if the point is on a geometric infinite line is in the interval set by the given vector (finite "line" with endpoints)
+         * @point point
+         * @param epsilon the amount of error that is permittable for two points to be considered equal
+         * (two points that are closer than epsilon will be considered equal)
+         */
         public bool contains(Point point, double epsilon)
         {
             if (end_pt.X == start_pt.X)

@@ -154,6 +154,7 @@ namespace PathFinding
             Assert.AreEqual("Path: < (1) (3) (2) (4) >", longPath.ToString(), "ToString override not working as expected.");
         }
 
+        /*
         [TestMethod]
         public void GetDirectionsFromPathTest()
         {
@@ -233,5 +234,6 @@ namespace PathFinding
             String expectedDirections = "[{\"angle\":0,\"distance\":1},{\"angle\":45,\"distance\":1.4142135623730952},{\"angle\":-135,\"distance\":1},{\"angle\":180,\"distance\":1}]";
             Assert.AreEqual(expectedDirections, jsonDirections, "JSON directions incorrect.");
         }
+         * */
     }
 }
