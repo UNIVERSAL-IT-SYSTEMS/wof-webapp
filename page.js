@@ -1,5 +1,7 @@
 $(function () {
-    var client = new WindowsAzure.MobileServiceClient('https://stay-hydrated.azure-mobile.net/', 'pDhaZaEqZoEysZWrcjKVAYRKGjTMYA21'),
+    var address = "https://[your-address].azure-mobile.net/";
+    var key = "[yourKey]";
+    var client = new WindowsAzure.MobileServiceClient(address, key),
         officesList = client.getTable('offices'),
         feedbackList = client.getTable('Feedback');
 
