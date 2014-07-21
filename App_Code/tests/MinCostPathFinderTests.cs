@@ -53,24 +53,32 @@ namespace PathFinding
         [TestMethod]
         public void MinCostPathFinderFromSVGTest()
         {
+            //Uncomment the following block of code when you have a map to test with. 
+            //Place SVG map file into the bin file of your project.
+            /*
             string filePath = "../map.svg";
             double error = 0.1;
+
+            //Look at your SVG file's code to determine where map's scale line is. Create points with the start
+            //and end coordinates of that scale line and the unit distance associated with the line. Make sure to
+            //note what system of measurement you are using. If the 15 you input here for the length is 15 meters, make sure you 
+            //calibrate your robot in meters later.
             double scale = CoordinateCalculator.getScale(new Point(0, 792), new Point(162, 792), 15);
 
             double epsilon = error * scale;
             Graph my_graph = Converter.downloadMap(filePath, scale, epsilon);
 
             //these parameters will be passed every time the search is activated
-            int start_office = 7038;
-            int end_office = 7236;
+            int start_office = 7038; //Change to a number corresponding to an office labeled in the map you created.
+            int end_office = 7236; //Change to another number corresonding to an office in your map.
 
             Node start_node = my_graph.findNodeByOfficeNumber(start_office);
             Node end_node = my_graph.findNodeByOfficeNumber(end_office);
             MinCostPathFinder pathfinder = new MinCostPathFinder();
             Path shortest_path = pathfinder.findPath(start_node, end_node);
             String jsonInstructions = shortest_path.getJSONDirections();
-
-            //Assert.Fail(); //uncomment to look at the jsonInstructions to make sure they make sense
+            */
+            //Assert.Fail(); //uncomment and use debug to look at the jsonInstructions to make sure they make sense
         }
     }
 }
