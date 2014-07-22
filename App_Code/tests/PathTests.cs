@@ -154,10 +154,12 @@ namespace PathFinding
             Assert.AreEqual("Path: < (1) (3) (2) (4) >", longPath.ToString(), "ToString override not working as expected.");
         }
 
-        /*
+        
         [TestMethod]
         public void GetDirectionsFromPathTest()
         {
+            double scale = 10;
+
             Point p1 = new Point(0, -1);
             Point p2 = new Point(0, 0);
             Point p3 = new Point(1, 1);
@@ -181,22 +183,22 @@ namespace PathFinding
             p.addEdgeToPath(threefour);
             p.addEdgeToPath(fourfive);
 
-            LinkedList<Direction> listOfDirections = p.getListOfDirections();
+            LinkedList<Direction> listOfDirections = p.getListOfDirections(scale);
 
             Point p0 = new Point(2*p1.X - p2.X, 2*p1.Y - p2.Y); //immaginary previous point. Assuming the robot is already facing the right direction.
-            Direction expectedFirstDirection = new Direction(p0, p1, p2);
+            Direction expectedFirstDirection = new Direction(p0, p1, p2, scale);
             Direction firstDirection = listOfDirections.First.Value;
             Assert.AreEqual(expectedFirstDirection, firstDirection, "First direction not calculated properly.");
 
-            Direction expectedSecondDirection = new Direction(p1, p2, p3);
+            Direction expectedSecondDirection = new Direction(p1, p2, p3, scale);
             Direction secondDirection = listOfDirections.First.Next.Value;
             Assert.AreEqual(expectedSecondDirection, secondDirection, "Second direction not calculated properly.");
 
-            Direction expectedThirdDirection = new Direction(p2, p3, p4);
+            Direction expectedThirdDirection = new Direction(p2, p3, p4, scale);
             Direction thirdDirection = listOfDirections.First.Next.Next.Value;
             Assert.AreEqual(expectedThirdDirection, thirdDirection, "Third direction not calculated properly.");
 
-            Direction expectedFourthDirection = new Direction(p3, p4, p5);
+            Direction expectedFourthDirection = new Direction(p3, p4, p5, scale);
             Direction fourthDirection = listOfDirections.First.Next.Next.Next.Value;
             Assert.AreEqual(expectedFourthDirection, fourthDirection, "Fourth direction not calculated properly.");
 
@@ -206,6 +208,7 @@ namespace PathFinding
         [TestMethod]
         public void GetJSONDirectionsFromPathTest()
         {
+            double scale = 1;
             Point p1 = new Point(0, -1);
             Point p2 = new Point(0, 0);
             Point p3 = new Point(1, 1);
@@ -229,11 +232,10 @@ namespace PathFinding
             p.addEdgeToPath(threefour);
             p.addEdgeToPath(fourfive);
 
-            LinkedList<Direction> listOfDirections = p.getListOfDirections();
-            String jsonDirections = p.getJSONDirections();
-            String expectedDirections = "[{\"angle\":0,\"distance\":1},{\"angle\":45,\"distance\":1.4142135623730952},{\"angle\":-135,\"distance\":1},{\"angle\":180,\"distance\":1}]";
+            LinkedList<Direction> listOfDirections = p.getListOfDirections(scale);
+            String jsonDirections = p.getJSONDirections(scale);
+            String expectedDirections = "{\"commandList\":[{\"angle\":0,\"distance\":1},{\"angle\":-45,\"distance\":1.4142135623730952},{\"angle\":135,\"distance\":1},{\"angle\":-180,\"distance\":1}]}";
             Assert.AreEqual(expectedDirections, jsonDirections, "JSON directions incorrect.");
         }
-         * */
     }
 }

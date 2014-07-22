@@ -24,7 +24,16 @@ namespace PathFinding
             get { return _distance; }
         }
 
-
+        /**
+         * Creates a new Direction from the three given points.
+         * 
+         * @param previousPoint The point the robot was at before.
+         * @param currentPoint The point the robot is currently at.
+         * @param nextPoint The point the robot is trying to get to next.
+         * @param scale Coordinates/Unit of Measurement (ex: coordinates/meter) This is how the Direction
+         * can take two points with x and y coordinates and determine how many meters (or other unit of measurement)
+         * that represents. You must be consistent with your scale throughout the project or you will be very unhappy.
+         */
         public Direction(Point previousPoint, Point currentPoint, Point nextPoint, double scale)
         {
             this.previousPoint = previousPoint;
@@ -33,6 +42,16 @@ namespace PathFinding
             _distance = CoordinateCalculator.euclideanDistance(currentPoint, nextPoint) / scale;
         }
 
+        /**
+         * Creates a new Direction from the three given nodes.
+         * 
+         * @param previousNode The point the robot was at before.
+         * @param currentNode The poNodeint the robot is currently at.
+         * @param nextNode The Node the robot is trying to get to next.
+         * @param scale Coordinates/Unit of Measurement (ex: coordinates/meter) This is how the Direction
+         * can take two Nodes' points with x and y coordinates and determine how many meters (or other unit of measurement)
+         * that represents. You must be consistent with your scale throughout the project or you will be very unhappy.
+         */
         public Direction(Node previousNode, Node currentNode, Node nextNode, double scale)
         {
             this.previousPoint = previousNode.CrossingPoint;
@@ -44,8 +63,8 @@ namespace PathFinding
         /**
          * Order of edges matters!
          * 
-         * @param edge1 is the edge that the robot is finishing. We need this to get current heading.
-         * @param edge2 is the edge that the robot is traveling on next.
+         * @param edge1 is the edge that the robot just finished traversing. We need this to get current heading.
+         * @param edge2 is the edge that the robot wants to travel on next.
          */
         public Direction(Edge edge1, Edge edge2)
         {
@@ -57,24 +76,10 @@ namespace PathFinding
         }
 
         /**
-         * Returns the negative angle because traditional coordinate positive and negative doesn't make sense for
-         * the robot. With the robot, right is positive angle, left is negative angle.
+         * Returns the angle (in degrees) the robot needs to turn to continue on the right path.
          * 
-         *            A'
-         *            ^   C
-         *            |  /
-         *            | /
-         *     _______|/______
-         *            B
-         *            |
-         *            |
-         *            |
-         *            A
-         *            
-         * In the example graph above, given previous point A, current point B, and next point C,
-         * current Heading would be the vector BA', and the new Heading would be the vector BC.
-         * Degree angle would be 45* (not -45* as traditional coordinate system would dictate.) because
-         * from here, the robot needs to go right 45*. 
+         * Negative angle = turn clockwise that many degrees.
+         * Positive angle = turn counterclockwise that many degrees.
          */
         private double getDegreeAngle(){
             //what if there is no angle1 (like for the first section of path?)
@@ -83,6 +88,13 @@ namespace PathFinding
             Vector newHeading = new Vector(nextPoint.X - currentPoint.X, nextPoint.Y - currentPoint.Y);
             return currentHeading.degreeAngleTo(newHeading);
         }
+
+        /**
+         * Returns the angle (in radians) the robot needs to turn to continue on the right path.
+         * 
+         * Negative angle = turn clockwise that many degrees.
+         * Positive angle = turn counterclockwise that many degrees.
+         */
         private double getRadianAngle()
         {
             //what if there is no angle1 (like for the first section of path?)
@@ -92,6 +104,9 @@ namespace PathFinding
             return -currentHeading.radianAngleTo(newHeading);
         }
 
+        /**
+         * Returns the json direction encoding the angle and distance the robot needs to travel to get to the next point.
+         */
         public string getJSONDirection()
         {
             var javaScriptSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
@@ -99,6 +114,12 @@ namespace PathFinding
             return jsonString;
         }
 
+        /**
+         * Overrides the ToString() function to return the JSON encoding of the direction.
+         * This includes both the angle and the direction.
+         * 
+         * @return a string listing out the nodes that make up the path.
+         */
         public override string ToString()
         {
             return getJSONDirection();
@@ -122,7 +143,7 @@ namespace PathFinding
 
 
         /**
-         * Returns true if the x and y coordinates of two points are closer than epsilon
+         * Returns true if the angles and distances of the two directions are within epsilon of each other.
          * 
          * @param point the point to compare to
          * @param epsilon the acceptable error

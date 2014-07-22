@@ -71,6 +71,7 @@ namespace PathFinding
          * from the previousPoint. The first node of the path is taken as the current node.
          * 
          * @param previousPoint the point that the robot was at before reaching this point.
+         * @param scale The coordinates/unit of measurement as determined by the map. 
          * @return A LinkedList of Direction objects specifying the correct order of direction.
          */
         public LinkedList<Direction> getListOfDirections(Point previousPoint, double scale)
