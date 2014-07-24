@@ -28,96 +28,98 @@ namespace PathFinding
 
         private Graph my_graph;
 
-        private string mobile_services_host = "[your host]";
+        private string mobile_services_host = "[your mobile services host]";
         private string security_key = "[your key]";
 
         private string table_name = "offices";
         private string filter = "complete%20eq%20false%20and%20cancelled%20eq%20false";
         
-        private int start_office = 7242;
-        private string node_host = "[your host]";
-        private double scale;
+        private int start_office = 0;
+        private string node_host = "[your nodebot host]";
+
+        private string container_name = "maps";
 
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
 
 
         public override void Run()
         {
-            //Get any new requests from the database
             string sURL = "https://" + mobile_services_host + "/tables/" + table_name + "?$filter=(" + filter + ")";
 
-            HttpWebRequest wrGETURL;
-
-            while(true)
+            while (true)
             {
                 Thread.Sleep(10000);
-
-                wrGETURL = (HttpWebRequest)WebRequest.Create(sURL);
-                wrGETURL.Accept = "application/json";
-                wrGETURL.Headers.Add("X-ZUMO-APPLICATION", security_key);
-                wrGETURL.Host = mobile_services_host;
-
-                Stream objStream;
-                objStream = wrGETURL.GetResponse().GetResponseStream();
-
-                StreamReader objReader = new StreamReader(objStream);
-
-                string sLine = "";
-                while (sLine != null)
-                {
-                    sLine = objReader.ReadLine();
-                    if (sLine != null && sLine!= "[]")
-                    {
-                        Record record = new Record(sLine);
-                        findPath(Convert.ToInt32(record.get("office")));
-                        setRequestToComplete(record.get("id"));
-                    }
-
-                }
-                objStream.Close();
-
+                getNewRecords(sURL);
             }
         }
 
-        
-       /*
-        * Represents a record in a database 
-        */
+        private void getNewRecords(string sURL)
+        {
+            HttpWebRequest wrGETURL;
+            wrGETURL = (HttpWebRequest)WebRequest.Create(sURL);
+            wrGETURL.Accept = "application/json";
+            wrGETURL.Headers.Add("X-ZUMO-APPLICATION", security_key);
+            wrGETURL.Host = mobile_services_host;
+
+            Stream objStream;
+            objStream = wrGETURL.GetResponse().GetResponseStream();
+
+            StreamReader objReader = new StreamReader(objStream);
+
+            string sLine = "";
+            while (sLine != null)
+            {
+                sLine = objReader.ReadLine();
+                if (sLine != null && sLine != "[]")
+                {
+                    Record record = new Record(sLine);
+                    findPath(Convert.ToInt32(record.get("office")));
+                    setRequestToComplete(record.get("id"));
+                }
+
+            }
+            objStream.Close();
+        }
+
+
+        /*
+         * Represents a record in a database 
+         */
         private class Record
         {
-                private Dictionary <string, string> properties;
-                
-                public Dictionary <string, string> Properties
-                {
-                    get {return properties;}
-                    set {properties = value;}
-                }
+            private Dictionary<string, string> properties;
 
-                public Record(string recordinfo)
+            public Dictionary<string, string> Properties
+            {
+                get { return properties; }
+                set { properties = value; }
+            }
+
+            public Record(string recordinfo)
+            {
+                properties = new Dictionary<string, string>();
+                string[] values = recordinfo.Split(',');
+                foreach (string value in values)
                 {
-                    properties = new Dictionary <string, string> ();
-                    string[] values = recordinfo.Split(',');
-                    foreach (string value in values)
+                    string property = value.Replace("\"", "");
+                    property = property.Replace("{", "");
+                    property = property.Replace("}", "");
+                    property = property.Replace("[", "");
+                    property = property.Replace("[", "");
+                    string[] parts = property.Split(':');
+                    if (parts.Length == 2)
                     {
-                        string property = value.Replace("\"", "");
-                        property = property.Replace("{", "");
-                        property = property.Replace("}", "");
-                        property = property.Replace("[", "");
-                        property = property.Replace("[", ""); 
-                        string []  parts = property.Split(':');
-                        if (parts.Length  == 2)
-                        {
-                            properties.Add(parts[0], parts[1]);
-                        }
+                        properties.Add(parts[0], parts[1]);
                     }
                 }
+            }
 
-                public string get(string property_name)
-                {
-                    return properties[property_name];
-                }
+            public string get(string property_name)
+            {
+                return properties[property_name];
+            }
 
-            
+
         }
 
         /*
@@ -126,17 +128,16 @@ namespace PathFinding
          */
         private void findPath(int end_office)
         {
-            
+
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
                     CloudConfigurationManager.GetSetting("StorageConnectionString"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("maps");
+            CloudBlobContainer container = blobClient.GetContainerReference(container_name);
 
             Node start_node = my_graph.findNodeByOfficeNumber(start_office);
             Node end_node = my_graph.findNodeByOfficeNumber(end_office);
             MinCostPathFinder pathfinder = new MinCostPathFinder();
             Path shortest_path = pathfinder.findPath(start_node, end_node);
-            storeResultingPath(shortest_path);
 
             sendInstructions(shortest_path);
         }
@@ -150,7 +151,7 @@ namespace PathFinding
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
             CloudConfigurationManager.GetSetting("StorageConnectionString"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("maps");
+            CloudBlobContainer container = blobClient.GetContainerReference(container_name);
 
 
             //upload
@@ -167,7 +168,7 @@ namespace PathFinding
             {
 
                 graphblob.UploadFromStream(fileStream);
-            } 
+            }
         }
 
         /*
@@ -176,8 +177,8 @@ namespace PathFinding
          */
         private void sendInstructions(Path path)
         {
-            
-            string body = path.getJSONDirections(scale);
+
+            string body = path.getJSONDirections(my_graph.Scale);
             string sURL = "http://" + node_host + "/robot/list";
 
             HttpWebRequest wrPOSTURL;
@@ -200,7 +201,7 @@ namespace PathFinding
             //TODO: CHECK IF RESPONSE IS OK
             //WebResponse resp = wrPOSTURL.GetResponse();
             stream.Close();
-             
+
         }
 
         /*
@@ -225,7 +226,7 @@ namespace PathFinding
             Stream stream = wrPATCHURL.GetRequestStream();
             byte[] byteArray = Encoding.UTF8.GetBytes(body);
             stream.Write(byteArray, 0, byteArray.Length);
-            
+
             //TODO: CHECK IF RESPONSE IS OK
             WebResponse resp = wrPATCHURL.GetResponse();
             stream.Close();
@@ -249,7 +250,7 @@ namespace PathFinding
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
             CloudConfigurationManager.GetSetting("StorageConnectionString"));
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("maps");
+            CloudBlobContainer container = blobClient.GetContainerReference(container_name);
 
 
             //upload
@@ -261,13 +262,9 @@ namespace PathFinding
                 mapBlob.DownloadToStream(fileStream);
             }
 
-            //TODO: make settable manually
             string filePath = "map.svg";
-            double error = 0.1;
-            scale = CoordinateCalculator.getScale(new Point(0, 792), new Point(162, 792), 15);
 
-            double epsilon = error * scale;
-            my_graph = Converter.convert(filePath, scale, epsilon);
+            my_graph = Converter.convert(filePath);
         }
 
         public override void OnStop()
@@ -275,7 +272,7 @@ namespace PathFinding
             CompletedEvent.Set();
             base.OnStop();
 
-            
+
         }
     }
 }
