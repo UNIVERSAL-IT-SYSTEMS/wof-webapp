@@ -49,12 +49,41 @@ namespace PathFinding
             while (true)
             {
                 Thread.Sleep(10000);
-                getNewRecords(sURL);
+
+                List<Record> records = getNewRecords(sURL);
+
+                foreach (Record record in records)
+                { 
+                    Path shortest_path = findPath(Convert.ToInt32(record.get("office")));
+                    sendInstructions(shortest_path);
+                    setRequestToComplete(record.get("id"));
+                }
             }
         }
 
-        private void getNewRecords(string sURL)
+        /*
+         * This function is for testing separately from web-appp and the database.
+         * It creates the list of Record objects with given office Numbers
+         * 
+         */
+        private List <Record> getDummieRecords(List <int> office_numbers)
         {
+            List<Record> records = new List<Record>();
+            foreach (int number in office_numbers)
+            {
+                records.Add(new Record("office:" + Convert.ToString(number)));
+            }
+
+            return records;
+        }
+
+        /*
+         * Gets the list of new requests from the database
+         */ 
+        private List <Record> getNewRecords(string sURL)
+        {
+            List <Record> records = new List <Record> ();
+
             HttpWebRequest wrGETURL;
             wrGETURL = (HttpWebRequest)WebRequest.Create(sURL);
             wrGETURL.Accept = "application/json";
@@ -73,12 +102,14 @@ namespace PathFinding
                 if (sLine != null && sLine != "[]")
                 {
                     Record record = new Record(sLine);
-                    findPath(Convert.ToInt32(record.get("office")));
+                    records.Add(record);
                     setRequestToComplete(record.get("id"));
                 }
 
             }
             objStream.Close();
+
+            return records;
         }
 
 
@@ -126,7 +157,7 @@ namespace PathFinding
          * finds the path between start office and end office specified
          * @param end_office end office
          */
-        private void findPath(int end_office)
+        private Path findPath(int end_office)
         {
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(
@@ -139,7 +170,7 @@ namespace PathFinding
             MinCostPathFinder pathfinder = new MinCostPathFinder();
             Path shortest_path = pathfinder.findPath(start_node, end_node);
 
-            sendInstructions(shortest_path);
+            return shortest_path;
         }
 
         /*
