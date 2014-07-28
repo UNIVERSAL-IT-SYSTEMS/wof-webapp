@@ -11,11 +11,11 @@ function insert(item, user, request) {
     });
 
     function sendEmail(item) {
-        var sendgrid = new SendGrid('azure_b9e9d55bfa219948461f97a9d051419a@azure.com', 'Hm1B4bjQyw68iWp');       
+        var sendgrid = new SendGrid('[your account]@azure.com', '[your key]');       
 
         sendgrid.send({
-            to:  ['le.explorer.intern@outlook.com'],
-            from: 'mini-fridge@outlook.com',
+            to:  ['youremail@host.com'],
+            from: 'youremail@host.com',
             subject: 'You have new feedback!',
             text: "Here is the new feedback: " + item.text 
         }, function(success, message) {
