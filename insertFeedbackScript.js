@@ -11,7 +11,7 @@ function insert(item, user, request) {
     });
 
     function sendEmail(item) {
-        var sendgrid = new SendGrid('[your account]@azure.com', '[your key]');       
+        var sendgrid = new SendGrid('[your sendgrid username]@azure.com', '[your sendgrid password]');
 
         sendgrid.send({
             to:  ['youremail@host.com'],

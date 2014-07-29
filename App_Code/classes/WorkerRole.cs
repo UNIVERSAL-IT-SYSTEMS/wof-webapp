@@ -79,10 +79,10 @@ namespace PathFinding
 
         /*
          * Gets the list of new requests from the database
-         */ 
-        private List <Record> getNewRecords(string sURL)
+         */
+        private List<Record> getNewRecords(string sURL)
         {
-            List <Record> records = new List <Record> ();
+            List<Record> records = new List<Record>();
 
             HttpWebRequest wrGETURL;
             wrGETURL = (HttpWebRequest)WebRequest.Create(sURL);
@@ -101,9 +101,18 @@ namespace PathFinding
                 sLine = objReader.ReadLine();
                 if (sLine != null && sLine != "[]")
                 {
-                    Record record = new Record(sLine);
-                    records.Add(record);
-                    setRequestToComplete(record.get("id"));
+                    string[] record_strings = sLine.Split(new Char[] { '{', '}' });
+                    foreach (string record_info in record_strings)
+                    {
+                        if (record_info.Length > 2)
+                        {
+                            Record record = new Record(record_info);
+                            records.Add(record);
+                            setRequestToComplete(record.get("id"));
+                        }
+
+                    }
+
                 }
 
             }
@@ -133,8 +142,6 @@ namespace PathFinding
                 foreach (string value in values)
                 {
                     string property = value.Replace("\"", "");
-                    property = property.Replace("{", "");
-                    property = property.Replace("}", "");
                     property = property.Replace("[", "");
                     property = property.Replace("[", "");
                     string[] parts = property.Split(':');
