@@ -31,7 +31,7 @@ button:hover {
     background-color: white;
 }
 
-input[type=text], input:not([type]) {
+input[type=text], input:not([type]), select {
     padding: 0 10px;
     text-overflow: ellipsis;
     border-radius: 3px;
@@ -74,6 +74,10 @@ header h3{
 #fetch-fridge {
     margin: 17px 0 5px 0;
     font-size: 1.1em;
+}
+
+#office-location-input, #office-location-dropdown{
+    display: none;
 }
 
 #office-location{

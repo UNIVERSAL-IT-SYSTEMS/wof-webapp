@@ -2,8 +2,9 @@ $(function () {
     var address = "https://[your-address].azure-mobile.net/";
     var key = "[yourKey]";
     var client = new WindowsAzure.MobileServiceClient(address, key),
-        officesList = client.getTable('offices'),
+        officesList = client.getTable('Offices');
         feedbackList = client.getTable('Feedback');
+        requestList = client.getTable('Requests');
 
     var officeNumber = 0;
     var progressNotification1 = "Yay! Your drink is on its way to room ";
@@ -15,6 +16,7 @@ $(function () {
     var error = "Please input the valid office number (do not include your building name)";
     var waitNotification = "fetching the fridge...";
 
+
     function displayProgressButtons() {
         $('#go').hide();
         $('#cancel').show();
@@ -23,6 +25,24 @@ $(function () {
     function displayCancelButtons() {
         $('#go').show();
         $('#cancel').hide();
+    }
+
+    //get the avaliable rooms if there are any
+    function setRoomNumbers() {
+
+        officesList.read().done(
+            function (results) {
+                if (results.length > 0) {
+                    for (var i = 0; i < results.length; i++) {
+                        $('#office-location-dropdown').append('<option value="' + results[i].number + '">' + results[i].number + '</option>');
+                    }
+                    $('#office-location-dropdown').attr("id", "office-location");
+                }
+                else {
+                    $('#office-location-input').attr("id", "office-location");
+                }
+            });
+
     }
 
     function handleError(error) {
@@ -41,27 +61,27 @@ $(function () {
         officeNumber = $('#office-location').val();
         $('#office-location').val("");
         if (!officeNumber || isNaN(officeNumber - 0) || officeNumber <= 0) {
-                    officeNumber = 0;
-                    $('#errorlog').empty();
-                    $('#errorlog').append($('<li>').text(error));
-        } 
+            officeNumber = 0;
+            $('#errorlog').empty();
+            $('#errorlog').append($('<li>').text(error));
+        }
         else {
             $('#errorlog').empty();
             $('#fetch-fridge').fadeOut();
             $('#notification').html(waitNotification);
-            officesList.where({ office: officeNumber, complete: false, cancelled: false }).read().done(
+            requestList.where({ office: officeNumber, complete: false, cancelled: false }).read().done(
             function (results) {
                 if (results.length != 0) {
                     $('#notification').html(verification1 + officeNumber + verification2);
                 }
                 else {
-                    
-                    officesList.insert({ office: officeNumber, complete: false, cancelled: false }).done(
-                        function () { },
+
+                    requestList.insert({ office: officeNumber, complete: false, cancelled: false }).done(
+                        function (success) { },
                         function (error) {
                             handleError(error)
-                        }); ;
-                    $('#notification').html(progressNotification1 + officeNumber + progressNotification2);                   
+                        });;
+                    $('#notification').html(progressNotification1 + officeNumber + progressNotification2);
                 }
                 $('#fetch-fridge').fadeIn();
                 displayProgressButtons();
@@ -74,10 +94,10 @@ $(function () {
     });
 
     $('#cancel').click(function (e) {
-        officesList.where({ office: officeNumber, complete: false, cancelled: false }).read().done(
+        requestList.where({ office: officeNumber, complete: false, cancelled: false }).read().done(
           function (results) {
               if (results.length != 0) {
-                  officesList.update({ id: results[0].id, office: officeNumber, complete: false, cancelled: true }).done(
+                  requestList.update({ id: results[0].id, office: officeNumber, complete: false, cancelled: true }).done(
                         function () { },
                         function (error) {
                             handleError(error)
@@ -115,6 +135,10 @@ $(function () {
     });
 
 
+
+
     // On initial load
     refresh();
+    setRoomNumbers();
+
 });

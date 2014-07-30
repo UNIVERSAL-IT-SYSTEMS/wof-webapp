@@ -15,11 +15,13 @@
 
                 <form id='fetch-fridge'>
                     <h3>Office Location:</h3>
-                    <input type="number" id="office-location" placeholder="7424">
-                    <br>
-                    <div id='go-button'><button type='submit' id='go'>Fetch the Fridge</button></div>
-                    <div id='cancel-button'><button type='submit' id='cancel'>Cancel request</button></div>
-                </form>
+                    <input type="number" id="office-location-input" placeholder="7424">
+                    <select name="rooms" id="office-location-dropdown">
+                    </select>
+                        <br>
+                        <div id='go-button'><button type='submit' id='go'>Fetch the Fridge</button></div>
+                        <div id='cancel-button'><button type='submit' id='cancel'>Cancel request</button></div>
+                    </form>
                 <br>
                 <form >
                     <h3 id ='notification'></h3>
