@@ -1,7 +1,7 @@
+
 $(function () {
-    var address = "https://[your-address].azure-mobile.net/";
-    var key = "[yourKey]";
-    var client = new WindowsAzure.MobileServiceClient(address, key),
+    var client = new WindowsAzure.MobileServiceClient("https://stay-hydrated.azure-mobile.net/",
+    "VcAjNJjGltoEIIYIJtKusyVPdiBrIX30"),
         officesList = client.getTable('Offices');
         feedbackList = client.getTable('Feedback');
         requestList = client.getTable('Requests');
@@ -33,7 +33,7 @@ $(function () {
         officesList.read().done(
             function (results) {
                 if (results.length > 0) {
-                    for (var i = 0; i < results.length; i++) {
+                    for(var i = 0; i < results.length; i++){
                         $('#office-location-dropdown').append('<option value="' + results[i].number + '">' + results[i].number + '</option>');
                     }
                     $('#office-location-dropdown').attr("id", "office-location");
@@ -41,6 +41,11 @@ $(function () {
                 else {
                     $('#office-location-input').attr("id", "office-location");
                 }
+                
+            }, 
+            function (error) {
+                $('#office-location-input').attr("id", "office-location");
+                handleError(error);
             });
 
     }
@@ -61,33 +66,34 @@ $(function () {
         officeNumber = $('#office-location').val();
         $('#office-location').val("");
         if (!officeNumber || isNaN(officeNumber - 0) || officeNumber <= 0) {
-            officeNumber = 0;
-            $('#errorlog').empty();
-            $('#errorlog').append($('<li>').text(error));
-        }
+                    officeNumber = 0;
+                    $('#errorlog').empty();
+                    $('#errorlog').append($('<li>').text(error));
+        } 
         else {
             $('#errorlog').empty();
             $('#fetch-fridge').fadeOut();
             $('#notification').html(waitNotification);
             requestList.where({ office: officeNumber, complete: false, cancelled: false }).read().done(
-            function (results) {
-                if (results.length != 0) {
-                    $('#notification').html(verification1 + officeNumber + verification2);
-                }
-                else {
-
-                    requestList.insert({ office: officeNumber, complete: false, cancelled: false }).done(
-                        function (success) { },
-                        function (error) {
-                            handleError(error)
-                        });;
-                    $('#notification').html(progressNotification1 + officeNumber + progressNotification2);
-                }
-                $('#fetch-fridge').fadeIn();
-                displayProgressButtons();
-            });
-
-
+                function (results) {
+                    if (results.length != 0) {
+                        $('#notification').html(verification1 + officeNumber + verification2);
+                    }
+                    else {
+                    
+                        requestList.insert({ office: officeNumber, complete: false, cancelled: false }).done(
+                            function (success) {},
+                            function (error) {
+                                handleError(error)
+                            }); ;
+                        $('#notification').html(progressNotification1 + officeNumber + progressNotification2);                   
+                    }
+                    $('#fetch-fridge').fadeIn();
+                    displayProgressButtons();
+                },
+                function (error) {
+                    handleError(error)
+                }); 
         }
 
         e.preventDefault();
@@ -103,7 +109,10 @@ $(function () {
                             handleError(error)
                         });
               }
-          });
+           },
+           function (error) {
+               handleError(error)
+           });
         $('#notification').html(cancellation1 + officeNumber + cancellation2);
         displayCancelButtons();
 
@@ -119,7 +128,10 @@ $(function () {
 
         var text = $('#feedback-text').val();
         if (text) {
-            feedbackList.insert({ text: text });
+            feedbackList.insert({ text: text }).done(
+                 function (error) {
+                     handleError(error)
+                 });
             $('#thank-you').html("Thank you!");
 
             setTimeout(function () {
@@ -134,11 +146,8 @@ $(function () {
         e.preventDefault();
     });
 
-
-
-
     // On initial load
     refresh();
     setRoomNumbers();
-
+  
 });
