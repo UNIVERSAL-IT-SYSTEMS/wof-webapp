@@ -109,7 +109,7 @@ footer a {
     margin-bottom: 3px;
 }
 
- #feedbackForm, #cancel{
+ #feedbackForm, #cancel, #notifyMaker{
     display: none;
 }
 
@@ -127,3 +127,8 @@ footer a {
     display: inline-block;
     text-align: left;
 }
+
+#fridgeLost {
+    color: white;
+}
+
