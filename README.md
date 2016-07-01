@@ -5,3 +5,7 @@ The web-app is to be hosted on Azure and use Azure Mobile Services with SQL data
 The package also contains a database script that uses SendGrid add-on for Azure to email the feedback to the web app owner (insertFeedbackScript.js).
 
 To find out how to set up this web app, go to http://ms-iot.github.io/windows-on-fridges/webservices/webapp/
+
+===
+
+This project has adopted the [Microsoft Open Source Code of Conduct](http://microsoft.github.io/codeofconduct). For more information see the [Code of Conduct FAQ](http://microsoft.github.io/codeofconduct/faq.md) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments. 
